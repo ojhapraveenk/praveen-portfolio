@@ -1,0 +1,18 @@
+@media only screen and (max-width:780px){
+   #heading{font-size: 50px;}
+    #text{display: none;}
+    
+}
+@media only screen and (max-width:650px){
+    #heading{font-size: 22px;}
+     #text{display: none;}
+     #imgBox{height: 66vh;}
+     
+ }
+
+@media only screen and (max-width:450px){
+    #heading{font-size: 20px;}
+ 
+     #imgBox{height: 60vh;}
+     
+ }
