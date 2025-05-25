@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import logo from '../assets/logo.jpg';
@@ -13,7 +13,7 @@ function Navbar() {
 
   const toogleMenu = () => {
     setToggle(!toogle);  
- 
+
   };
 
   useGSAP(() => {
@@ -29,43 +29,54 @@ function Navbar() {
         <img src={logo} alt="Logo" className="logo-img" />
       </div>
 
-      {/* Corrected className */}
       <div ref={ menuToogle} className={`menu ${toogle ? 'show' : ''}`}>
         <ul className="menu-list">
           <li>
-            <Link to="/section" className="menu-item">about</Link>
+            <Link to="/section" className="menu-item">About</Link>
           </li>
           <li>
-            <Link to="/Learn" className="menu-item">learn</Link>
+            <Link to="/education" className="menu-item">Education</Link>
           </li>
           <li>
-            <Link to="/portfolio" className="menu-item">portfolio</Link>
+            <Link to="/projects" className="menu-item">Projects</Link>
           </li>
           <li>
-            <Link to="/blog" className="menu-item">blog</Link>
+            <Link to="/testimonials" className="menu-item">Testimonials</Link>
           </li>
           <li>
-            <Link to="/contact" className="menu-item">contact</Link>
+            <Link to="/contact" className="menu-item">Contact</Link>
           </li>
         </ul>
 
         <div className="social-icon">
           <ul className="social-list">
             <li className="social-item">
-              <i className="fab fa-facebook hover:text-blue-400 text-white text-3xl"></i>
+              <a href="mailto:ojha.praveenk@gmail.com" target="_blank" rel="noopener noreferrer">
+                <i className="fas fa-envelope hover:text-blue-400 text-white text-2xl"></i>
+              </a>
             </li>
             <li className="social-item">
-              <i className="fab fa-instagram text-pink-600 hover:text-pink-900 text-3xl"></i>
+              <a href="https://linkedin.com/in/praveenojha3110" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-linkedin text-blue-600 hover:text-blue-400 text-2xl"></i>
+              </a>
             </li>
             <li className="social-item">
-              <i className="fab fa-x-twitter text-white hover:text-gray-400 text-3xl"></i>
+              <a href="https://gitlab.com/ojha.praveenk" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-gitlab text-orange-500 hover:text-orange-600 text-2xl"></i>
+              </a>
             </li>
             <li className="social-item">
-              <i className="fab fa-linkedin text-3xl text-blue-600 hover:text-blue-400"></i>
+              <a href="https://www.google.com/maps/place/Pfaffenwaldring+42A,+70569+Stuttgart,+Germany/" target="_blank" rel="noopener noreferrer">
+                <i className="fas fa-map-marker-alt text-blue-500 hover:text-blue-800 text-2xl"></i>
+              </a>
+            </li>
+            <li className="social-item">
+              <a href="tel:+4915207598759">
+                <i className="fas fa-phone text-green-500 hover:text-green-700 text-2xl"></i>
+              </a>
             </li>
           </ul>
         </div>
-
       </div>
 
       <div onClick={toogleMenu} className="bars">

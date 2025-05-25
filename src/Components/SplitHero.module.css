@@ -1,0 +1,259 @@
+.custom-font {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.hero-container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 88vh;
+    position: relative;
+    overflow: hidden;
+    background: #f9fbff;
+  }
+.hero-split {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: 500px;
+}
+
+.split-half {
+  transition: flex 0.4s, opacity 0.4s;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: flex 0.4s cubic-bezier(.6, .2, .1, 1), opacity 0.4s;
+  cursor: pointer;
+  min-width: 0;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+  background: transparent;
+}
+
+.split-half.left { 
+  background: 
+    linear-gradient(90deg, rgba(203, 242, 219, 0.8), rgba(242, 244, 239, 0.8)),
+    url('src/assets/da.png') center/cover no-repeat,
+    #e9f1fb; /* fallback color */; 
+}
+.split-half.right { 
+  background:
+    linear-gradient(0deg, rgba(138, 236, 237, 0.92), rgb(255, 255, 255)),
+    url('src/assets/pa.png') center/cover no-repeat,
+    #fff; 
+}
+
+.split-half.expanded.left {
+  align-items: flex-start;
+  padding-left: 10vw;
+}
+.split-half.expanded.right {
+  align-items: flex-end;
+  padding-right: 10vw;
+}
+
+.split-content {
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.split-content span {
+  word-break: break-word;
+  white-space: normal;
+}
+
+.split-half.hide { opacity: 0; flex: 0; pointer-events: none; }
+
+.profile-photo-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.profile-photo-full {
+    width: 100%;
+    height: 100%;
+    /* border-radius: 130px; */
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 10;
+    animation: fadeIn 0.25s;
+}
+  
+.profile-photo-split {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  top: 0;
+}
+
+.profile-photo-split.left {
+  left: 0;
+  border-radius: 130px 0 0 130px;
+  clip-path: inset(0 0 0 0 round 130px 0 0 130px);
+  animation: slide-in-left 0.9s cubic-bezier(.4,1.5,.7,1.1);
+}
+.profile-photo-split.right {
+  right: 0;
+  border-radius: 0 130px 130px 0;
+  clip-path: inset(0 0 0 0 round 0 130px 130px 0);
+  animation: slide-in-right 0.9s cubic-bezier(.4,1.5,.7,1.1);
+}
+@keyframes slide-in-left {
+  0% { transform: translateX(-120%) scale(0.8);}
+  100% { transform: translateX(0) scale(1);}
+}
+@keyframes slide-in-right {
+  0% { transform: translateX(120%) scale(0.8);}
+  100% { transform: translateX(0) scale(1);}
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+  /* Ribbon badge */
+.ribbon-badge {
+    position: absolute;
+    top: 2rem;
+    right: 2.5rem;
+    width: 250px;
+    z-index: 10;
+    pointer-events: none;
+    overflow: visible;
+    animation: pulseGlow 1.8s infinite alternate;
+    transition: transform 0.22s cubic-bezier(.36,.21,.52,.82), filter 0.22s;
+}
+
+.resume-button-wrapper {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+/* Update your existing resume-btn to remove margin-top */
+.resume-btn {
+    margin-top: 2rem;
+    padding: 0.85rem 2.2rem;
+    background: #1857b8;
+    color: #fff;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 1.2rem;
+    font-weight: 600;
+    box-shadow: 0 2px 16px 2px #d0e6ff33;
+    cursor: pointer;
+    transition: background 0.2s;
+    z-index: 2;
+    text-align: center;
+}
+.resume-btn:hover { background: #2d70e9; }
+
+.qualification-box {
+  width: 100%;
+  max-width: 540px;
+  margin: 2.5rem auto 0 auto;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  background: #f4f8ff;
+  border-radius: 1.4rem;
+  box-shadow: 0 2px 18px 0 #e6ecf555;
+  overflow: hidden;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.rwth-bg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100px;
+  height: auto;
+  /* opacity: 0.17; */
+  z-index: 0;
+  pointer-events: none;
+}
+
+.qualification-text {
+  position: relative;
+  z-index: 1;
+  font-size: 1.29rem;
+  font-weight: 600;
+  color: #153277;
+  letter-spacing: 0.03rem;
+  text-align: left;
+  margin-left: 110px;
+}
+
+.skills-train-wrapper {
+  margin-top: 0.2rem;
+  width: 10vw;
+  overflow-x: hidden;
+}
+
+  /* Responsive tweaks */
+@media (max-width: 900px) {
+    
+    .hero-split {
+    flex-direction: column;
+    }
+    .split-half {
+        flex: unset;
+        width: 100vw;
+        height: 220px;
+    }
+    .profile-photo-container {
+        width: 220px;
+        height: 220px;
+        top: 65%;
+    }
+}
+@media (max-width: 500px) {
+    .profile-photo-container { width: 140px; height: 140px; }
+    .ribbon-badge { width: 120px; right: 1rem; top: 1rem;}
+    .profile-photo-split.left {
+        border-radius: 70px 0 0 70px;
+        clip-path: inset(0 0 0 0 round 70px 0 0 70px);
+    }
+    .profile-photo-split.right {
+        border-radius: 0 70px 70px 0;
+        clip-path: inset(0 0 0 0 round 0 70px 70px 0);
+    }
+}
+
+@media (max-width: 600px) {
+  .qualification-box {
+    max-width: 98vw;
+    min-height: 72px;
+    border-radius: 1rem;
+  }
+  .rwth-bg { width: 56px; left: 7px;}
+  .qualification-text { margin-left: 68px; font-size: 1rem; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(1, 22, 35, 0.23);}
+  90% { box-shadow: 0 0 28px 7px rgba(1, 15, 24, 0.26);}
+}

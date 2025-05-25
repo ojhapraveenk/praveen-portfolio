@@ -1,0 +1,87 @@
+.skills-train-outer {
+    width: 100vw;
+    background: #acf3f6;
+    overflow-x: visible;
+    overflow-y: visible;
+    /* overflow: visible; */
+    padding: 0.2rem 0;
+    border-top: 1px solid #e6eefa;
+    border-bottom: 1px solid #e6eefa;
+    position: relative;
+    z-index: 1;
+}
+
+.skills-train-track {
+    display: flex;
+    width: max-content;
+    animation: train-loop 122s linear infinite;
+}
+
+.skills-train-outer:hover .skills-train-track {
+    animation-play-state: paused;
+}
+
+.skill-chip {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    background: #e5effc;
+    color: #165ba8;
+    font-weight: 600;
+    margin-right: 2rem;
+    border-radius: 2rem;
+    padding: 0.5rem 1.2rem;
+    font-size: 1.15rem;
+    box-shadow: 0 1px 6px 0 #ddeeff44;
+    min-width: 100px;
+    gap: 0.7rem;
+    transition: transform 0.15s;
+}
+
+.skill-chip:hover {
+    background: #1857b8;
+    color: #fff;
+    transform: scale(1.07);
+}
+.skill-chip.hovered {
+    z-index: 1001; /* On hover, raise above all others */
+}
+.skill-tooltip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ebeed8;
+    color: #165ba8;
+    font-size: 0.95em;
+    padding: 0.32em 0.8em;
+    border-radius: 1em;
+    box-shadow: 0 4px 18px #bbd7f944;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+.skill-icon img, 
+img.skill-icon {
+    height: 1.45em;        /* Matches the font size of the emoji/icons */
+    width: auto;           /* Keep aspect ratio */
+    display: inline-block; /* Proper alignment with text */
+    vertical-align: middle;
+    /* Optional for better centering if logos seem off: */
+    object-fit: contain;
+    /* To add space around the icon if needed: */
+    /* margin-bottom: -2px;  /* Adjust this as needed for baseline alignment */
+}
+
+@keyframes train-loop {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .skill-chip { font-size: 0.95rem; min-width: 80px; }
+}
