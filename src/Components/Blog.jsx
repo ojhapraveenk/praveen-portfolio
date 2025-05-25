@@ -3,7 +3,7 @@ import blogImg from '../assets/blogImg-1.webp';
 import blogImg2 from '../assets/blogImg-2.webp';
 import blogImg3 from '../assets/blogImg-3.jpg';
 import blogImg4 from '../assets/blogImg-4.jpg';
-import man from '../assets/section.jpg';
+import man from '../assets/profile_photo.jpg';
 
 function Blog() {
     return (

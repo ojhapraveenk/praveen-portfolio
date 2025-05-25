@@ -1,5 +1,5 @@
 import React from 'react'
-import section from '../assets/section.jpg'
+import section from '../assets/profile_photo.jpg'
 
 function Contact() {
   return (

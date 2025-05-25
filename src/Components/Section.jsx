@@ -1,56 +1,150 @@
-import React, { useRef, useEffect } from 'react';
-import section from '../assets/section.jpg';
-import Footer from './Footer';
-import footer1 from '../assets/footer1.jpg';
-import footer2 from '../assets/footer2.jpg';
-import footer3 from '../assets/footer3.jpg';
-import gsap from 'gsap';
-import './section.css'
+import React, { useState, useEffect } from 'react';
+import styles from './SplitHero.module.css';
+import profilePhoto from '../assets/profile_photo.jpg';
+import chestRibbon from '../assets/chest_ribbon.png';
+import SkillsTrain from "./SkillsTrain.jsx";
 
-function Section() {
+import { useNavigate } from 'react-router-dom';
+
+const TAGLINE_LEFT =
+  "Blending machine learning and analytics with business process intelligence";
+const TAGLINE_RIGHT =
+  "Specialist in process mining, LLM-driven conformance checks, and Action Flow";
+
+const RESUME_URL = '/assets/resumes/resume_data_analyst.pdf';
+
+export default function Section() {
+  const [hovered, setHovered] = useState(null); // 'left', 'right', or null
+  const [animationDone, setAnimationDone] = useState(false);
+  const navigate = useNavigate();
+
   
-  const sectionRef = useRef(null);
-
   useEffect(() => {
-    
-    gsap.to(sectionRef.current, {
-      opacity: 1,   
-      duration: 1,  
-      delay: 1,    
-    });
+    // Animation is 0.9s, so after 900ms, show the full photo
+    const timer = setTimeout(() => setAnimationDone(true), 900);
+    return () => clearTimeout(timer);
   }, []);
 
+  // Navigation logic on click
+  const goToSection = (side) => {
+    if (side === 'left') navigate('/data-analyst');
+    else if (side === 'right') navigate('/process-analyst');
+  };
+
+  function handleMouseMove(e) {
+    const bounds = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - bounds.left;
+    const width = bounds.width;
+
+    if (x < width * 0.32) setHovered('left');         // Only if mouse is in far left 32%
+    else if (x > width * 0.68) setHovered('right');   // Only if mouse is in far right 32%
+    else setHovered(null);                            // Else show both
+  }
 
   return (
-    <>
-      <section ref={sectionRef} className="h-[85vh] w-full z-10 opacity-0">
-        <div className="img relative ">
-          <img className="h-[85vh]  w-full" src={section} alt="For some error image not show" id='imgBox'/>
-          <div className="info-div bg absolute top-0 flex justify-center items-center h-[85vh] w-full indent-3">
-            <div className="designer w-[50%] h-full flex justify-start items-center flex-col ">
-              <div className="design w-[90%] mt-36">
-                <h1 className="text-6xl font-bold text-gray-600" id='heading'>designer</h1>
-                <p className=" w-[65%] mt-2 text-center text-sm pr-10 text-gray-600 " id='text'>
-                  Product designer specialising UI design and design system.
-                </p>
-              </div>
-            </div>
+    <div className={styles['hero-container']}>
 
-            <div className="coder w-[50%] h-full flex justify-start items-center flex-col">
-              <div className="coder-info mt-36 flex justify-center items-end flex-col w-[90%] ">
-                <h1 className="text-7xl text-gray-700 font-bold pr-5" id='heading'> &lt;coder&gt;</h1>
-                <p className="text-sm w-[65%] flex justify-start items-center text-center text-gray-600" id='text'>
-                  Front end developer who writes clean, elegant and efficient code
-                </p>
-              </div>
-            </div>
+      {/* Ribbon badge */}
+      <img src={chestRibbon} alt="5+ Years Experience" className={styles['ribbon-badge']} />
+
+      {/* Main Split */}
+      <div
+        className={styles['hero-split']}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setHovered(null)}
+      >
+
+        {/* Left half */}
+        <div
+          // className={`${styles['split-half']} ${styles.left} ${hovered === 'right' ? styles.hide : ''}`}
+          className={`${styles['split-half']} ${styles.left} ${hovered === 'right' ? styles.hide : ''} ${hovered === 'left' ? styles.expanded : ''}`}
+          onMouseEnter={() => setHovered('left')}
+          onMouseLeave={() => setHovered(null)}
+          onClick={() => goToSection('left')}
+        >
+          <div className={styles['split-content']}>
+            <h1 className="text-8xl font-bold text-blue-800 mb-7">Data Analyst</h1>
+            <span className="text-1xl text-gray-700 block text-center max-w-xs mb-2">{TAGLINE_LEFT}</span>
+            <a
+              className={styles['resume-btn']}
+              href="/assets/resumes/data_analyst_resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              See Resume
+            </a>
           </div>
         </div>
-      </section>
 
-      <Footer  workLatest={'some of my latest work'} img1={footer1} img2={footer2} img3={footer3} />
-    </>
+        
+        {/* Profile photo in split */}
+        <div className={styles['profile-photo-container']}>
+          {!animationDone ? (
+            <>
+              {/* Left half */}
+              <div className={`${styles['profile-photo-split']} ${styles.left}`}>
+                <img src={profilePhoto} alt="Profile left"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'left' }} />
+              </div>
+              {/* Right half */}
+              <div className={`${styles['profile-photo-split']} ${styles.right}`}>
+                <img src={profilePhoto} alt="Profile right"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right' }} />
+              </div>
+            </>
+          ) : (
+            // Show whole image centered after animation
+            <img
+              src={profilePhoto}
+              alt="Profile"
+              className={styles['profile-photo-full']}
+              style={{
+                position: "absolute",
+                left: 0, top: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: "1130px"
+              }}
+            />
+          )}
+        </div>
+
+        {/* Right half */}
+        <div
+          // className={`${styles['split-half']} ${styles.right} ${hovered === 'left' ? styles.hide : ''}`}
+          className={`${styles['split-half']} ${styles.right} ${hovered === 'left' ? styles.hide : ''} ${hovered === 'right' ? styles.expanded : ''}`}
+          onMouseEnter={() => setHovered('right')}
+          onMouseLeave={() => setHovered(null)}
+          onClick={() => goToSection('right')}
+        >
+          <div className={styles['split-content']}>
+            <h2 className="text-8xl font-bold text-blue-800 mb-7">Process Mining Analyst</h2>
+            <span className="text-gray-700 block text-center max-w-xs mb-2">{TAGLINE_RIGHT}</span>
+            <a
+              className={styles['resume-btn']}
+              href="/assets/resumes/data_analyst_resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              See Resume
+            </a>
+          </div>
+        </div>
+        <div className={styles['qualification-box']}>
+          <img
+            src="src/assets/logos/rwth_logo.png"
+            alt="RWTH Aachen University"
+            className={styles['rwth-bg']}
+          />
+          <div className={styles['qualification-text']}>
+            <div>M.Sc. Data Analytics and Decision Science</div>
+          </div>
+        </div>
+      </div>
+      <div className="skills-train-wrapper">
+        <SkillsTrain />
+      </div>
+    </div>
   );
 }
-
-export default Section;
