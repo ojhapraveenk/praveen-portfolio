@@ -27,8 +27,8 @@ export default function Section() {
 
   // Navigation logic on click
   const goToSection = (side) => {
-    if (side === 'left') navigate('/data-analyst');
-    else if (side === 'right') navigate('/process-analyst');
+    if (side === 'left') navigate('/projects?mode=data-analyst');
+    else if (side === 'right') navigate('/projects?mode=process-mining-analyst');
   };
 
   function handleMouseMove(e) {

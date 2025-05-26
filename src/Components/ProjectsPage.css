@@ -1,0 +1,280 @@
+/* src/Components/ProjectsPage.css */
+
+.projects-page-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Mode Selection Controls */
+.mode-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 0;
+  position: relative;
+  z-index: 10;
+}
+
+.mode-btn {
+  background: linear-gradient(135deg, #e3eefc 0%, #cbd5e1 100%);
+  color: #1857b8;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.6s;
+}
+
+.mode-btn:hover::before {
+  left: 100%;
+}
+
+.mode-btn.active {
+  background: linear-gradient(135deg, #1857b8 0%, #1e40af 100%);
+  color: white;
+  border-color: #1857b8;
+  box-shadow: 0 8px 25px rgba(24, 87, 184, 0.3);
+  transform: translateY(-2px);
+}
+
+.mode-btn.reset-btn.active {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  border-color: #6b7280;
+  box-shadow: 0 8px 25px rgba(107, 114, 128, 0.3);
+}
+
+/* Main Data Journey Container */
+.data-journey-container {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+  transition: all 0.6s ease;
+}
+
+/* Dynamic Background Narrative */
+.background-narrative {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 0.1;
+  transition: all 0.6s ease;
+  z-index: 1;
+}
+
+.background-narrative.data-analyst .narrative-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+    linear-gradient(45deg, rgba(34, 197, 94, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+  background-size: 200px 200px, 100% 100%;
+  animation: dataFlow 20s linear infinite;
+}
+
+.background-narrative.process-mining-analyst .narrative-pattern {
+  background-image: 
+    radial-gradient(circle at 75% 75%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+    linear-gradient(-45deg, rgba(168, 85, 247, 0.05) 0%, rgba(99, 102, 241, 0.05) 100%);
+  background-size: 150px 150px, 100% 100%;
+  animation: processFlow 15s linear infinite;
+}
+
+.narrative-pattern {
+  width: 100%;
+  height: 100%;
+  transition: all 0.6s ease;
+}
+
+@keyframes dataFlow {
+  0% { background-position: 0% 0%, 0% 0%; }
+  100% { background-position: 200px 200px, 100% 100%; }
+}
+
+@keyframes processFlow {
+  0% { background-position: 0% 0%, 0% 0%; }
+  100% { background-position: 150px 150px, 100% 100%; }
+}
+
+/* Journey Progress Indicator */
+.journey-progress {
+  position: relative;
+  margin: 2rem 0 3rem;
+  padding: 1rem 0;
+  z-index: 5;
+}
+
+.progress-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #1857b8 0%, #3b82f6 50%, #6366f1 100%);
+  transform: translateY(-50%);
+  opacity: 0.3;
+}
+
+.skill-evolution {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.skill-tag {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1857b8;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(24, 87, 184, 0.2);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.skill-tag.glow {
+  background: rgba(24, 87, 184, 0.1);
+  border-color: #1857b8;
+  box-shadow: 0 0 20px rgba(24, 87, 184, 0.4);
+  transform: scale(1.05);
+}
+
+/* Section Styling */
+.section-title {
+  text-align: center;
+  color: #1e293b;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  position: relative;
+  z-index: 5;
+}
+
+.section-title.prominent {
+  font-size: 2.25rem;
+  color: #1857b8;
+  margin-bottom: 3rem;
+}
+
+.section-title:not(.prominent) {
+  font-size: 1.875rem;
+  color: #475569;
+}
+
+/* Professional Pipeline - More Prominent */
+.professional-pipeline {
+  position: relative;
+  z-index: 5;
+  margin: 3rem 0 4rem;
+}
+
+.pipeline-container {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.6s ease;
+}
+
+/* Academic Nodes - Secondary Prominence */
+.academic-nodes {
+  position: relative;
+  z-index: 4;
+  margin: 2rem 0;
+}
+
+.nodes-container {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.6s ease;
+}
+
+/* Skill Connections Overlay */
+.skill-connections {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.connections-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.6;
+  transition: opacity 0.6s ease;
+}
+
+/* Mode-specific enhancements */
+.data-journey-container.data-analyst .pipeline-container {
+  box-shadow: 0 15px 40px rgba(24, 87, 184, 0.15);
+  border-color: rgba(24, 87, 184, 0.2);
+}
+
+.data-journey-container.process-mining-analyst .pipeline-container {
+  box-shadow: 0 15px 40px rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .mode-controls {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .mode-btn {
+    width: 200px;
+    text-align: center;
+  }
+  
+  .skill-evolution {
+    gap: 0.75rem;
+  }
+  
+  .data-journey-container {
+    padding: 0 1rem 2rem;
+  }
+  
+  .pipeline-container,
+  .nodes-container {
+    padding: 1rem;
+  }
+  
+  .section-title.prominent {
+    font-size: 1.875rem;
+  }
+  
+  .section-title:not(.prominent) {
+    font-size: 1.5rem;
+  }
+}
