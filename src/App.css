@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 } */
+
+.carousel,
+.carousel.carousel-slider {
+    height: 100vh !important;
+    max-height: 100vh !important;
+}

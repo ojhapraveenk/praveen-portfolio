@@ -61,7 +61,7 @@ function Navbar() {
               </a>
             </li>
             <li className="social-item">
-              <a href="https://gitlab.com/ojha.praveenk" target="_blank" rel="noopener noreferrer">
+              <a href="https://git.rwth-aachen.de/ojha.praveenk" target="_blank" rel="noopener noreferrer">
                 <i className="fab fa-gitlab text-orange-500 hover:text-orange-600 text-2xl"></i>
               </a>
             </li>
