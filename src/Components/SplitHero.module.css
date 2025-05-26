@@ -213,44 +213,70 @@
   overflow-x: hidden;
 }
 
-  /* Responsive tweaks */
 @media (max-width: 900px) {
-    
-    .hero-split {
+  .hero-container {
+    height: 100vh; /* Changed from 88vh */
+  }
+  
+  .hero-split {
     flex-direction: column;
-    }
-    .split-half {
-        flex: unset;
-        width: 100vw;
-        height: 220px;
-    }
-    .profile-photo-container {
-        width: 220px;
-        height: 220px;
-        top: 65%;
-    }
-}
-@media (max-width: 500px) {
-    .profile-photo-container { width: 140px; height: 140px; }
-    .ribbon-badge { width: 120px; right: 1rem; top: 1rem;}
-    .profile-photo-split.left {
-        border-radius: 70px 0 0 70px;
-        clip-path: inset(0 0 0 0 round 70px 0 0 70px);
-    }
-    .profile-photo-split.right {
-        border-radius: 0 70px 70px 0;
-        clip-path: inset(0 0 0 0 round 0 70px 70px 0);
-    }
+    min-height: 600px; /* Add minimum height */
+  }
+  
+  .split-half {
+    flex: unset;
+    width: 100vw;
+    height: 250px; /* Increased from 220px */
+    min-height: 250px; /* Add minimum */
+  }
+  
+  .profile-photo-container {
+    width: 280px; /* Increased from 220px */
+    height: 280px;
+    top: 50%; /* Changed from 65% */
+  }
 }
 
 @media (max-width: 600px) {
   .qualification-box {
-    max-width: 98vw;
-    min-height: 72px;
+    max-width: 95vw; /* Changed from 98vw */
+    min-height: 80px; /* Increased from 72px */
     border-radius: 1rem;
+    padding: 0.5rem; /* Add padding */
   }
-  .rwth-bg { width: 56px; left: 7px;}
-  .qualification-text { margin-left: 68px; font-size: 1rem; }
+  
+  .rwth-bg { 
+    width: 60px; /* Increased from 56px */
+    left: 8px;
+  }
+  
+  .qualification-text { 
+    margin-left: 72px; /* Increased from 68px */
+    font-size: 1.1rem; /* Increased from 1rem */
+  }
+}
+
+@media (max-width: 500px) {
+  .profile-photo-container { 
+    width: 180px; /* Increased from 140px */
+    height: 180px; 
+  }
+  
+  .ribbon-badge { 
+    width: 140px; /* Increased from 120px */
+    right: 1rem; 
+    top: 1rem;
+  }
+  
+  .profile-photo-split.left {
+    border-radius: 90px 0 0 90px; /* Increased from 70px */
+    clip-path: inset(0 0 0 0 round 90px 0 0 90px);
+  }
+  
+  .profile-photo-split.right {
+    border-radius: 0 90px 90px 0; /* Increased from 70px */
+    clip-path: inset(0 0 0 0 round 0 90px 90px 0);
+  }
 }
 
 @keyframes pulseGlow {
