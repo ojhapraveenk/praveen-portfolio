@@ -39,13 +39,13 @@
 .split-half.left { 
   background: 
     linear-gradient(90deg, rgba(203, 242, 219, 0.8), rgba(242, 244, 239, 0.8)),
-    url('src/assets/da.png') center/cover no-repeat,
+    url('../assets/da.png') center/cover no-repeat,
     #e9f1fb; /* fallback color */; 
 }
 .split-half.right { 
   background:
     linear-gradient(0deg, rgba(138, 236, 237, 0.92), rgb(255, 255, 255)),
-    url('src/assets/pa.png') center/cover no-repeat,
+    url('../assets/pa.png') center/cover no-repeat,
     #fff; 
 }
 
