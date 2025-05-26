@@ -3,6 +3,7 @@ import styles from './SplitHero.module.css';
 import profilePhoto from '../assets/profile_photo.jpg';
 import chestRibbon from '../assets/chest_ribbon.png';
 import SkillsTrain from "./SkillsTrain.jsx";
+import rwthlogo from '../assets/logos/rwth_logo.png';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -133,7 +134,7 @@ export default function Section() {
         </div>
         <div className={styles['qualification-box']}>
           <img
-            src="src/assets/logos/rwth_logo.png"
+            src={rwthlogo}
             alt="RWTH Aachen University"
             className={styles['rwth-bg']}
           />
