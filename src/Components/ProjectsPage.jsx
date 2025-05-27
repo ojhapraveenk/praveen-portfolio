@@ -28,21 +28,21 @@ export default function ProjectsPage() {
             <div className="mode-controls">
                 <button
                     onClick={() => { 
-                        setActiveMode("data-analyst"); 
-                        setHighlight(true); 
-                    }}
-                    className={`mode-btn ${activeMode === "data-analyst" && highlight ? "active" : ""}`}
-                >
-                    Data Analyst Journey
-                </button>
-                <button
-                    onClick={() => { 
                         setActiveMode("process-mining-analyst"); 
                         setHighlight(true); 
                     }}
                     className={`mode-btn ${activeMode === "process-mining-analyst" && highlight ? "active" : ""}`}
                 >
                     Process Mining Journey
+                </button>
+                <button
+                    onClick={() => { 
+                        setActiveMode("data-analyst"); 
+                        setHighlight(true); 
+                    }}
+                    className={`mode-btn ${activeMode === "data-analyst" && highlight ? "active" : ""}`}
+                >
+                    Data Analyst Journey
                 </button>
                 <button
                     onClick={() => {
@@ -69,11 +69,11 @@ export default function ProjectsPage() {
                 <div className="journey-progress">
                     <div className="progress-line"></div>
                     <div className="skill-evolution">
-                        <span className={`skill-tag ${activeMode === 'data-analyst' && highlight ? 'glow' : ''}`}>
-                            Data Analytics
-                        </span>
                         <span className={`skill-tag ${activeMode === 'process-mining-analyst' && highlight ? 'glow' : ''}`}>
                             Process Mining
+                        </span>
+                        <span className={`skill-tag ${activeMode === 'data-analyst' && highlight ? 'glow' : ''}`}>
+                            Data Analytics
                         </span>
                         <span className="skill-tag">Machine Learning</span>
                         <span className="skill-tag">Business Intelligence</span>

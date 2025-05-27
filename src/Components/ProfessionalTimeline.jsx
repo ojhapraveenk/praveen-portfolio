@@ -22,20 +22,6 @@ export default function ProfessionalTimeline({
   // Calculate total width needed
   const [totalWidth, setTotalWidth] = useState('100%');
 
-  // // Animate draw of line on mount
-  // useEffect(() => {
-  //   const line = timelineRef.current;
-  //   if (!line) return;
-    
-  //   const length = line.getTotalLength();
-  //   line.style.strokeDasharray = length;
-  //   line.style.strokeDashoffset = length;
-    
-  //   setTimeout(() => {
-  //     line.style.strokeDashoffset = 0; // Animates left to right
-  //   }, 700);
-  // }, []);
-
   useEffect(() => {
     // Calculate width based on number of nodes
     const nodeWidth = 220; // approximate width per node

@@ -9,9 +9,9 @@ import resumePM from '../assets/resume_pm_analyst.pdf';
 
 import { useNavigate } from 'react-router-dom';
 
-const TAGLINE_LEFT =
-  "Blending machine learning and analytics with business process intelligence";
 const TAGLINE_RIGHT =
+  "Blending machine learning and analytics with business process intelligence";
+const TAGLINE_LEFT =
   "Specialist in process mining, LLM-driven conformance checks, and Action Flow";
 
 // const RESUME_URL = '../assets/resume_data_analyst.pdf';
@@ -30,8 +30,8 @@ export default function Section() {
 
   // Navigation logic on click
   const goToSection = (side) => {
-    if (side === 'left') navigate('/projects?mode=data-analyst');
-    else if (side === 'right') navigate('/projects?mode=process-mining-analyst');
+    if (side === 'left') navigate('/projects?mode=process-mining-analyst');
+    else if (side === 'right') navigate('/projects?mode=data-analyst');
   };
 
   function handleMouseMove(e) {
@@ -66,7 +66,7 @@ export default function Section() {
           onClick={() => goToSection('left')}
         >
           <div className={styles['split-content']}>
-            <h1 className="text-8xl font-bold text-blue-800 mb-7">Data Analyst</h1>
+            <h1 className="text-8xl font-bold text-blue-800 mb-7">Process Mining Analyst</h1>
             <span className="text-1xl text-gray-700 block text-center max-w-xs mb-2">{TAGLINE_LEFT}</span>
             <a
               className={styles['resume-btn']}
@@ -122,11 +122,11 @@ export default function Section() {
           onClick={() => goToSection('right')}
         >
           <div className={styles['split-content']}>
-            <h2 className="text-8xl font-bold text-blue-800 mb-7">Process Mining Analyst</h2>
+            <h2 className="text-8xl font-bold text-blue-800 mb-7">Data Analyst</h2>
             <span className="text-gray-700 block text-center max-w-xs mb-2">{TAGLINE_RIGHT}</span>
             <a
               className={styles['resume-btn']}
-              href={resumePM}
+              href={resumeDA}
               target="_blank"
               rel="noopener noreferrer"
             >
