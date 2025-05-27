@@ -4,6 +4,8 @@ import profilePhoto from '../assets/profile_photo.jpg';
 import chestRibbon from '../assets/chest_ribbon.png';
 import SkillsTrain from "./SkillsTrain.jsx";
 import rwthlogo from '../assets/logos/rwth_logo.png';
+import resumeDA from '../assets/resume_data_analyst.pdf';
+import resumePM from '../assets/resume_pm_analyst.pdf';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +14,7 @@ const TAGLINE_LEFT =
 const TAGLINE_RIGHT =
   "Specialist in process mining, LLM-driven conformance checks, and Action Flow";
 
-const RESUME_URL = '/assets/resumes/resume_data_analyst.pdf';
+// const RESUME_URL = '../assets/resume_data_analyst.pdf';
 
 export default function Section() {
   const [hovered, setHovered] = useState(null); // 'left', 'right', or null
@@ -68,7 +70,7 @@ export default function Section() {
             <span className="text-1xl text-gray-700 block text-center max-w-xs mb-2">{TAGLINE_LEFT}</span>
             <a
               className={styles['resume-btn']}
-              href="/assets/resumes/data_analyst_resume.pdf"
+              href={resumePM}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -124,7 +126,7 @@ export default function Section() {
             <span className="text-gray-700 block text-center max-w-xs mb-2">{TAGLINE_RIGHT}</span>
             <a
               className={styles['resume-btn']}
-              href="/assets/resumes/data_analyst_resume.pdf"
+              href={resumePM}
               target="_blank"
               rel="noopener noreferrer"
             >
