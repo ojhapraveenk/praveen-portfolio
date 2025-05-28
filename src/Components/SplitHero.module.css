@@ -38,13 +38,13 @@
 
 .split-half.left { 
   background: 
-    linear-gradient(90deg, rgba(203, 242, 219, 0.8), rgba(242, 244, 239, 0.8)),
+    linear-gradient(0deg, rgba(203, 242, 219, 0.9), rgba(242, 244, 239, 0.9)),
     url('../assets/pa.png') center/cover no-repeat,
     #e9f1fb; /* fallback color */; 
 }
 .split-half.right { 
   background:
-    linear-gradient(90deg, rgba(160, 186, 212, 0.8), rgba(242, 244, 239, 0.8)),
+    linear-gradient(0deg, rgba(218, 234, 235, 0.8), rgb(255, 255, 255, 0.8)),
     url('../assets/da.png') center/cover no-repeat,
     #fff; 
 }
@@ -242,58 +242,6 @@
   overflow-x: hidden;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-  /* Responsive tweaks */
->>>>>>> release/Updated_Animation
-@media (max-width: 900px) {
-  .hero-container {
-    height: 100vh; /* Changed from 88vh */
-  }
-  
-  .hero-split {
-    flex-direction: column;
-<<<<<<< HEAD
-    min-height: 600px; /* Add minimum height */
-  }
-  
-  .split-half {
-    flex: unset;
-    width: 100vw;
-    height: 250px; /* Increased from 220px */
-    min-height: 250px; /* Add minimum */
-  }
-  
-  .profile-photo-container {
-    width: 280px; /* Increased from 220px */
-    height: 280px;
-    top: 50%; /* Changed from 65% */
-=======
-    }
-    .split-half {
-        flex: unset;
-        width: 100vw;
-        height: 220px;
-    }
-    .profile-photo-container {
-        width: 220px;
-        height: 220px;
-        top: 65%;
-    }
-}
-@media (max-width: 500px) {
-    .profile-photo-container { width: 140px; height: 140px; }
-    .ribbon-badge { width: 120px; right: 1rem; top: 1rem;}
-    .profile-photo-split.left {
-        border-radius: 70px 0 0 70px;
-        clip-path: inset(0 0 0 0 round 70px 0 0 70px);
-    }
-    .profile-photo-split.right {
-        border-radius: 0 70px 70px 0;
-        clip-path: inset(0 0 0 0 round 0 70px 70px 0);
-    }
-=======
 /* Enhanced Responsive Design for Production Deployment (20% larger resolution) */
 
 /* Large Desktop (1440px+) - Production ready */
@@ -330,7 +278,6 @@
   .rwth-bg {
     width: 120px;
     left: 15px;
->>>>>>> release/Updated_Animation
   }
 }
 
@@ -366,10 +313,6 @@
   }
   
   .qualification-box {
-<<<<<<< HEAD
-    max-width: 95vw; /* Changed from 98vw */
-    min-height: 80px; /* Increased from 72px */
-=======
     max-width: 500px;
   }
 }
@@ -436,7 +379,6 @@
     top: 1.5rem;
     right: 1.5rem;
   }
->>>>>>> Stashed changes
 }
 
 /* Mobile Portrait (600px-767px) */
@@ -464,51 +406,6 @@
   }
   
   .qualification-box {
-<<<<<<< Updated upstream
-    max-width: 98vw;
-    min-height: 72px;
->>>>>>> release/Updated_Animation
-    border-radius: 1rem;
-    padding: 0.5rem; /* Add padding */
-  }
-  
-  .rwth-bg { 
-    width: 60px; /* Increased from 56px */
-    left: 8px;
-  }
-  
-  .qualification-text { 
-    margin-left: 72px; /* Increased from 68px */
-    font-size: 1.1rem; /* Increased from 1rem */
-  }
-}
-
-@media (max-width: 500px) {
-  .profile-photo-container { 
-    width: 180px; /* Increased from 140px */
-    height: 180px; 
-  }
-  
-  .ribbon-badge { 
-    width: 140px; /* Increased from 120px */
-    right: 1rem; 
-    top: 1rem;
-  }
-  
-  .profile-photo-split.left {
-    border-radius: 90px 0 0 90px; /* Increased from 70px */
-    clip-path: inset(0 0 0 0 round 90px 0 0 90px);
-  }
-  
-  .profile-photo-split.right {
-    border-radius: 0 90px 90px 0; /* Increased from 70px */
-    clip-path: inset(0 0 0 0 round 0 90px 90px 0);
-  }
-<<<<<<< HEAD
-=======
-  .rwth-bg { width: 56px; left: 7px;}
-  .qualification-text { margin-left: 68px; font-size: 1rem; }
-=======
     max-width: 95vw;
     min-height: 85px;
     border-radius: 1rem;
@@ -666,8 +563,6 @@
   .tagline-container {
     min-height: 95px;
   }
->>>>>>> Stashed changes
->>>>>>> release/Updated_Animation
 }
 
 @keyframes pulseGlow {
