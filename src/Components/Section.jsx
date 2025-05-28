@@ -151,12 +151,12 @@ export default function Section() {
               {/* Left half */}
               <div className={`${styles['profile-photo-split']} ${styles.left}`}>
                 <img src={profilePhoto} alt="Profile left"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'left' }} />
+                    style={{ width: '80%', height: '80%', objectFit: 'cover', objectPosition: 'left' }} />
               </div>
               {/* Right half */}
               <div className={`${styles['profile-photo-split']} ${styles.right}`}>
                 <img src={profilePhoto} alt="Profile right"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right' }} />
+                    style={{ width: '80%', height: '80%', objectFit: 'cover', objectPosition: 'right' }} />
               </div>
             </>
           ) : (
@@ -168,8 +168,8 @@ export default function Section() {
               style={{
                 position: "absolute",
                 left: 0, top: 0,
-                width: "100%",
-                height: "100%",
+                width: "80%",
+                height: "80%",
                 objectFit: "cover",
                 borderRadius: "1130px"
               }}

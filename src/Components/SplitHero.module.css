@@ -5,7 +5,7 @@
 .hero-container {
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    width: 100%;
     height: 88vh;
     position: relative;
     overflow: hidden;
@@ -14,7 +14,7 @@
 .hero-split {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   position: relative;
   min-height: 500px;
@@ -40,13 +40,13 @@
   background: 
     linear-gradient(0deg, rgba(203, 242, 219, 0.9), rgba(242, 244, 239, 0.9)),
     url('../assets/pa.png') center/cover no-repeat,
-    #e9f1fb; /* fallback color */; 
+    #e9f1fb; /* fallback color */;
 }
 .split-half.right { 
   background:
     linear-gradient(0deg, rgba(218, 234, 235, 0.8), rgb(255, 255, 255, 0.8)),
     url('../assets/da.png') center/cover no-repeat,
-    #fff; 
+    #fff;
 }
 
 .split-half.expanded.left {
@@ -58,9 +58,42 @@
   padding-right: 10vw;
 }
 
+/* for left side, push content further left */
+.split-half.left .split-content {
+  margin-left: 10vw;   /* tweak this % or vw until it’s where you want */
+  margin-right: auto;
+  text-align: center;   /* optional */
+}
+
+/* for right side, push content further right */
+.split-half.right .split-content {
+  margin-right: 10vw;
+  margin-left: auto;
+  text-align: center;  /* optional */
+}
+
+/* when left side is expanded (hover), push text left */
+.split-half.expanded.left .split-content {
+  margin-left: -1vw;    /* adjust this to taste */
+  margin-right: auto;
+  text-align: center;    /* optional */
+  position: absolute;  /* to allow higher z-index */
+  z-index: 6;          /* bring above the profile photo (z-index:5) */
+}
+
+/* when right side is expanded (hover), push text right */
+.split-half.expanded.right .split-content {
+  margin-right: -3vw;
+  margin-left: auto;
+  text-align: center;   /* optional */
+  position: absolute;
+  z-index: 6;
+}
+
 .split-content {
-  width: 100%;
-  max-width: 350px;
+  width: 40%;
+  margin: 0 auto;
+  /* max-width: 350px; */
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -75,7 +108,7 @@
 
 /* Typing Animation Styles */
 .tagline-container {
-  min-height: 80px;
+  /* min-height: 80px; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,8 +137,8 @@
 
 .profile-photo-container {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 55%;
+  left: 55%;
   width: 500px;
   height: 500px;
   transform: translate(-50%, -50%);
@@ -114,8 +147,7 @@
 }
 
 .profile-photo-full {
-    width: 100%;
-    height: 100%;
+    /* width: 100%;/
     /* border-radius: 130px; */
     border-radius: 50%;
     object-fit: cover;
@@ -133,14 +165,14 @@
 
 .profile-photo-split.left {
   left: 0;
-  border-radius: 130px 0 0 130px;
-  clip-path: inset(0 0 0 0 round 130px 0 0 130px);
+  /* border-radius: 130px 0 0 130px;
+  clip-path: inset(0 0 0 0 round 130px 0 0 130px); */
   animation: slide-in-left 0.9s cubic-bezier(.4,1.5,.7,1.1);
 }
 .profile-photo-split.right {
   right: 0;
-  border-radius: 0 130px 130px 0;
-  clip-path: inset(0 0 0 0 round 0 130px 130px 0);
+  /* border-radius: 0 130px 130px 0;
+  clip-path: inset(0 0 0 0 round 0 130px 130px 0); */
   animation: slide-in-right 0.9s cubic-bezier(.4,1.5,.7,1.1);
 }
 @keyframes slide-in-left {
@@ -158,9 +190,10 @@
   /* Ribbon badge */
 .ribbon-badge {
     position: absolute;
-    top: 2rem;
+    top: 1rem;
     right: 2.5rem;
     width: 250px;
+    height: auto;
     z-index: 10;
     pointer-events: none;
     overflow: visible;
@@ -247,7 +280,7 @@
 /* Large Desktop (1440px+) - Production ready */
 @media (min-width: 1440px) {
   .hero-container {
-    height: 90vh;
+    height: 87vh;
   }
   
   .profile-photo-container {
@@ -260,14 +293,14 @@
   }
   
   .ribbon-badge {
-    width: 300px;
-    top: 3rem;
+    width: 200px;
+    top: 1rem;
     right: 3rem;
   }
   
   .qualification-box {
     max-width: 650px;
-    min-height: 75px;
+    min-height: 15px;
   }
   
   .qualification-text {
@@ -310,6 +343,7 @@
   
   .ribbon-badge {
     width: 220px;
+    top: 1rem;
   }
   
   .qualification-box {
@@ -376,7 +410,7 @@
   
   .ribbon-badge {
     width: 200px;
-    top: 1.5rem;
+    top: 1rem;
     right: 1.5rem;
   }
 }
@@ -541,7 +575,7 @@
   
   .ribbon-badge {
     width: 320px;
-    top: 3.5rem;
+    top: 1rem;
     right: 3.5rem;
   }
   
