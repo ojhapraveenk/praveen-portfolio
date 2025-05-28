@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
     LineChart,
     Line,
@@ -9,6 +9,7 @@ import {
     ResponsiveContainer,
     ReferenceDot
 } from "recharts";
+import styles from './Education.module.css';
 import rwthLogo from "../assets/logos/rwth_logo.png";
 import soaLogo from "../assets/logos/soa_logo.png";
 import cbseLogo from "../assets/logos/cbse_logo.png";
@@ -55,7 +56,7 @@ const educationTimeline = [
         gradeDisplay: "1,1 GPA (98.3%)", // Tooltip display
         scale: "GPA",
         link: "https://www.soa.ac.in/",
-        description: "Deemed university recognized for innovation and research."
+        description: "Deemed to be university recognized for innovation and research."
     },
     {
         degree: "Abitur (German Equivalent)", // German equivalent of 12th grade
@@ -68,7 +69,7 @@ const educationTimeline = [
         gradeDisplay: "86%", // Tooltip display
         scale: "%",
         link: "https://www.cbse.gov.in/",
-        description: "India's central board of secondary education - equivalent to German Abitur."
+        description: "India's central board of secondary education"
     },
     {
         degree: "Schulabschluss (German Equivalent)", // German equivalent of 10th grade
@@ -81,7 +82,7 @@ const educationTimeline = [
         gradeDisplay: "79.8%", // Tooltip display
         scale: "%",
         link: "https://www.cbse.gov.in/",
-        description: "India's central board of secondary education - equivalent to German Schulabschluss."
+        description: "India's central board of secondary education"
     },
 ];
 
@@ -102,6 +103,38 @@ const chartData = [
     { name: "M.Sc.", value: 1.5, displayValue: "1,5 GPA" },
 ];
 
+// Typing animation hook
+const useTypingEffect = (text, isActive, speed = 30) => {
+    const [displayText, setDisplayText] = useState('');
+    const [isComplete, setIsComplete] = useState(false);
+
+    useEffect(() => {
+        if (!isActive || !text) {
+            setDisplayText('');
+            setIsComplete(false);
+            return;
+        }
+        
+        setDisplayText('');
+        setIsComplete(false);
+        
+        let index = 0;
+        const timer = setInterval(() => {
+            if (index < text.length) {
+                setDisplayText(text.slice(0, index + 1));
+                index++;
+            } else {
+                setIsComplete(true);
+                clearInterval(timer);
+            }
+        }, speed);
+        
+        return () => clearInterval(timer);
+    }, [text, isActive, speed]);
+
+    return { displayText, isComplete };
+};
+
 /**
  * MAIN EDUCATION COMPONENT
  * =======================
@@ -110,9 +143,38 @@ const chartData = [
 export default function Education() {
     // State to track which education item is being previewed
     const [previewIdx, setPreviewIdx] = useState(null);
+    const [hoveredIdx, setHoveredIdx] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
 
     // Get preview data for right panel
     const preview = previewIdx !== null ? educationTimeline[previewIdx] : null;
+    
+    // Typing animation for institution description
+    const institutionTyping = useTypingEffect(
+        preview?.description || '', 
+        previewIdx !== null, 
+        25
+    );
+
+    // Calculate dynamic timeline height based on logo positions
+    const timelineHeight = useMemo(() => {
+        const logoCount = educationTimeline.length;
+        const logoSpacing = 160; // pixels between logos
+        const firstLogoOffset = 80; // top offset of first logo
+        const logoSize = 80; // logo height
+        
+        return firstLogoOffset + ((logoCount - 1) * logoSpacing) + (logoSize / 2);
+    }, [educationTimeline.length]);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     // Function to return to academic progression view
     const showAcademicProgression = () => {
@@ -124,11 +186,11 @@ export default function Education() {
         if (active && payload && payload.length) {
             const data = payload[0].payload;
             return (
-                <div className="bg-[#f7faff] border border-[#2d70e9] rounded-xl p-3 shadow-lg">
-                    <p className="text-[#165ba8] font-bold text-sm">
+                <div className={styles['chart-tooltip']}>
+                    <p className={styles['tooltip-stage']}>
                         {`Stage: ${label}`}
                     </p>
-                    <p className="text-[#165ba8] font-bold text-sm">
+                    <p className={styles['tooltip-grade']}>
                         {`Grade: ${data.displayValue}`}
                     </p>
                 </div>
@@ -160,107 +222,99 @@ export default function Education() {
         }
     }, [animationProgress]);
 
+    const handleTimelineItemClick = (idx) => {
+        if (isMobile) {
+            setPreviewIdx(idx);
+        } else {
+            setPreviewIdx(idx);
+        }
+    };
+
     return (
         <div 
-            className="h-screen bg-gradient-to-tr from-[#e3f0ff] to-[#f9fbff] px-6 py-6 flex flex-col items-center overflow-hidden"
+            className={styles['education-container']}
             onClick={showAcademicProgression} // Click anywhere to return to chart
         >
             {/* MAIN TITLE */}
             {/* <h1 className="text-5xl font-bold text-blue-800 mb-8">My Education</h1> */}
             
-            {/* 
-            LAYOUT CUSTOMIZATION:
-            - max-w-7xl: Controls maximum width (can use max-w-full for unlimited width)
-            - gap-20: Space between left and right panels
-            - Removed width restrictions for more flexibility
-            */}
-            <div className="w-full h-full flex flex-1 overflow-hidden">
-                {/* LEFT HALF: TIMELINE - Fixed 50% width */}
-                <div className="w-1/2 relative px-8 py-4" onClick={(e) => e.stopPropagation()}>
-                    {/* 
-                    TIMELINE LAYOUT EXPLANATION:
-                    - Fixed center line at 60% from left (adjust TIMELINE_CENTER_X to move line left/right)
-                    - Dates positioned to the left of center line
-                    - Education info positioned to the right of center line
-                    - Logos absolutely positioned on the center line
-                    */}
-                    
-                    {/* CONTINUOUS VERTICAL TIMELINE LINE */}
-                    {/* <div 
-                        className="absolute top-0 bottom-0 w-1 bg-blue-300 z-0"
-                        style={{ left: '60%', top:'9%', height: '76%' }}
-                    ></div> */}
-                    
-                    {/* TIMELINE ITEMS */}
-                    <div className="relative h-full">
+            <div className={styles['education-content']}>
+                {/* LEFT HALF: TIMELINE */}
+                <div className={styles['timeline-section']} onClick={(e) => e.stopPropagation()}>
+                    {/* UNIFIED TIMELINE TRACK */}
+                    <div className={styles['timeline-container']}>
+                        {/* Timeline Track - Contains both line and logos */}
                         <div 
-                            className="absolute top-0 w-1 bg-blue-300 z-0 transition-all duration-2000 ease-out"
-                            style={{ 
-                                left: '60%', 
-                                top: '9%', 
-                                height: `${animationProgress}%`,
-                                maxHeight: '76%'
-                            }}
-                        ></div>
-                        {educationTimeline.map((edu, idx) => {
-                            // Calculate vertical position for each item
-                            const itemTop = 80 + (idx * 160); // ITEM_SPACING - Change 160 to adjust spacing between items
-                            const TIMELINE_CENTER_X = '61%'; // Keep consistent with line position
-                            return (
-                                <div
-                                    key={idx}
-                                    className={`transition-all duration-700 ease-out ${
-                                        idx <= animationStep ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                                    }`}
-                                >
-                                    {/* DATE - Left side of timeline */}
-                                    <div 
-                                        className="absolute text-right pr-2 text-2xl text-gray-600 font-semibold"
-                                        style={{ 
-                                            right: `calc(100% - ${TIMELINE_CENTER_X} + 56px)`, // Positions to left of center line
-                                            top: `${itemTop + 10}px`, // Align with logo center
-                                            width: '1200px' // DATE_WIDTH - Adjust width for longer dates
-                                        }}
-                                    >
-                                        {edu.dateText}
-                                    </div>
-                                    
-                                    {/* INSTITUTION LOGO - Center of timeline */}
+                            className={styles['timeline-track']}
+                            style={{ height: `${timelineHeight}px` }}
+                        >
+                            {/* Animated Timeline Line */}
+                            <div 
+                                className={styles['timeline-line']}
+                                style={{ 
+                                    height: `${(animationProgress / 116) * 100}%`
+                                }}
+                            ></div>
+                            
+                            {/* Timeline Logos - Automatically centered on line */}
+                            {educationTimeline.map((edu, idx) => {
+                                const logoTop = 80 + (idx * 120); // Same spacing as before
+                                return (
                                     <div
-                                        className="absolute z-10 rounded-full ring-4 ring-blue-200 hover:ring-blue-500 hover:scale-110 transition-all duration-300 shadow-xl bg-white cursor-pointer -translate-x-1/2 -translate-y-1/2"
-                                        style={{ 
-                                            left: `calc(100% - ${TIMELINE_CENTER_X} + 186px)`, 
-                                            top: `${itemTop + 32}px` // LOGO_SIZE/2 for center alignment
-                                        }}
+                                        key={`logo-${idx}`}
+                                        className={`${styles['timeline-logo-container']} ${
+                                            idx <= animationStep ? styles['logo-visible'] : styles['logo-hidden']
+                                        } ${hoveredIdx === idx ? styles['logo-hovered'] : ''}`}
+                                        style={{ top: `${logoTop}px` }}
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            setPreviewIdx(idx);
+                                            handleTimelineItemClick(idx);
                                         }}
+                                        onMouseEnter={() => !isMobile && setHoveredIdx(idx)}
+                                        onMouseLeave={() => !isMobile && setHoveredIdx(null)}
                                         title={`${edu.institution}`}
                                     >
                                         <img
                                             src={edu.logo}
                                             alt={edu.degree}
-                                            className="w-20 h-20 object-contain p-1 rounded-full" // LOGO_SIZE - Adjust w-16 h-16 for size
+                                            className={styles['logo-image']}
                                         />
+                                        <div className={styles['logo-pulse']}></div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        
+                        {/* Timeline Content - Dates and Info positioned relative to track */}
+                        {educationTimeline.map((edu, idx) => {
+                            const itemTop = 80 + (idx * 120);
+                            return (
+                                <div
+                                    key={`content-${idx}`}
+                                    className={`${styles['timeline-item']} ${
+                                        idx <= animationStep ? styles['timeline-item-visible'] : styles['timeline-item-hidden']
+                                    } ${hoveredIdx === idx ? styles['timeline-item-hovered'] : ''}`}
+                                >
+                                    {/* DATE - Left side of timeline */}
+                                    <div 
+                                        className={styles['timeline-date']}
+                                        style={{ top: `${itemTop + 30}px` }}
+                                    >
+                                        {edu.dateText}
                                     </div>
                                     
                                     {/* EDUCATION INFO - Right side of timeline */}
                                     <div 
-                                        className="absolute pl-9"
-                                        style={{ 
-                                            left: `calc(${TIMELINE_CENTER_X} + 16px)`, // Positions to right of center line
-                                            top: `${itemTop}px`,
-                                            width: '300px' // INFO_WIDTH - Adjust width for content
-                                        }}
+                                        className={styles['timeline-info']}
+                                        style={{ top: `${itemTop + 10}px` }}
                                     >
-                                        <span className="block text-xl font-bold text-blue-900 leading-tight">
+                                        <span className={styles['degree-title']}>
                                             {edu.degree}
                                         </span>
-                                        <span className="block text-lg text-gray-700">
+                                        <span className={styles['edu-place']}>
                                             {edu.place}
                                         </span>
-                                        <span className="block text-lg font-bold text-blue-700 bg-blue-50 rounded-lg inline-block">
+                                        <span className={styles['edu-grade']}>
                                             {edu.grade}
                                         </span>
                                     </div>
@@ -271,42 +325,43 @@ export default function Education() {
                 </div>
                 
                 {/* VERTICAL DIVIDER */}
-                <div className="w-px bg-blue-100"></div>
+                <div className={styles['divider']}></div>
                 
-                {/* RIGHT HALF: CHART OR PREVIEW - Fixed 50% width */}
+                {/* RIGHT HALF: CHART OR PREVIEW */}
                 <div 
-                    className="w-1/2 flex flex-col items-center px-8 py-4"
-                    onClick={(e) => e.stopPropagation()} // Prevent background click when clicking right panel
+                    className={styles['chart-section']}
+                    onClick={(e) => e.stopPropagation()}
                 >
                     {preview ? (
                         /* INSTITUTION PREVIEW CARD */
-                        <div className="w-full max-w-lg flex flex-col items-center border border-blue-200 bg-white rounded-2xl shadow-lg p-8 h-fit">
+                        <div className={styles['preview-card']}>
                             {/* Institution Header */}
-                            <div className="flex items-center mb-6">
+                            <div className={styles['preview-header']}>
                                 <img
                                     src={preview.logo}
                                     alt={preview.degree}
-                                    className="w-16 h-16 mr-1 rounded-full bg-white border shadow object-contain p-2"
+                                    className={styles['preview-logo']}
                                 />
-                                <span className="text-2xl font-semibold text-blue-900 text-center flex-1">
+                                <span className={styles['preview-degree']}>
                                     {preview.degree}
                                 </span>
                             </div>
                             
-                            <div className="text-1xl font-semibold text-blue-500 text-center flex-1">
+                            <div className={styles['preview-institution']}>
                                 {preview.institution}
                             </div>
                             
-                            {/* Institution Description */}
-                            <p className="text-lg text-gray-700 mb-6 text-center leading-relaxed">
-                                {preview.description}
-                            </p>
+                            {/* Institution Description with Typing Animation */}
+                            <div className={styles['preview-description']}>
+                                {institutionTyping.displayText}
+                                {!institutionTyping.isComplete && (
+                                    <span className={styles['typing-cursor']}></span>
+                                )}
+                            </div>
                             
                             {/* Grade Display */}
-                            <div className="bg-blue-50 rounded-lg p-4 mb-6 w-full text-center">
-                                <span className="text-xl font-bold text-blue-700">
-                                    Grade: {preview.grade}
-                                </span>
+                            <div className={styles['preview-grade']}>
+                                <span>Grade: {preview.grade}</span>
                             </div>
                             
                             {/* External Link */}
@@ -314,7 +369,7 @@ export default function Education() {
                                 href={preview.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-blue-500 hover:text-blue-700 underline text-lg mb-6 transition-colors"
+                                className={styles['preview-link']}
                             >
                                 Visit Institution Website
                             </a>
@@ -322,27 +377,19 @@ export default function Education() {
                             {/* Back Button */}
                             <button
                                 onClick={showAcademicProgression}
-                                className="mt-2 px-8 py-3 bg-blue-100 hover:bg-blue-200 rounded-full text-blue-900 text-lg font-semibold transition-colors"
+                                className={styles['back-button']}
                             >
                                 ← Back to Academic Progression
                             </button>
                         </div>
                     ) : (
                         /* ACADEMIC PROGRESSION CHART */
-                        <div className="w-full flex flex-col items-center h-full">
-                            <span className="text-3xl font-semibold mb-6 text-blue-900">
+                        <div className={styles['chart-container']}>
+                            <span className={styles['chart-title']}>
                                 Academic Progression
                             </span>
                             
-                            {/* 
-                            CHART CUSTOMIZATION OPTIONS:
-                            - height: Change the number in height for chart height
-                            - width: Use fixed width or "100%" for responsive
-                            - margin: Adjust spacing around chart
-                            - colors: Modify stroke, fill colors below
-                            - domain: Y-axis range [min, max] - currently [0.8, 2.5]
-                            */}
-                            <div className="flex-1 w-full flex items-center justify-center">
+                            <div className={styles['chart-wrapper']}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <LineChart
                                         data={chartData}
@@ -399,11 +446,6 @@ export default function Education() {
                                     </LineChart>
                                 </ResponsiveContainer>
                             </div>
-                            
-                            {/* Chart Legend/Note */}
-                            {/* <p className="text-sm text-gray-600 mt-4 text-center max-w-lg">
-                                📈 Academic performance over time (lower values indicate better grades in German system)
-                            </p> */}
                         </div>
                     )}
                 </div>
