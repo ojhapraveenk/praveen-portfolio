@@ -38,13 +38,13 @@
 
 .split-half.left { 
   background: 
-    linear-gradient(90deg, rgba(203, 242, 219, 0.8), rgba(242, 244, 239, 0.8)),
+    linear-gradient(0deg, rgba(203, 242, 219, 0.9), rgba(242, 244, 239, 0.9)),
     url('../assets/pa.png') center/cover no-repeat,
     #e9f1fb; /* fallback color */; 
 }
 .split-half.right { 
   background:
-    linear-gradient(90deg, rgba(160, 186, 212, 0.8), rgba(242, 244, 239, 0.8)),
+    linear-gradient(0deg, rgba(218, 234, 235, 0.8), rgb(255, 255, 255, 0.8)),
     url('../assets/da.png') center/cover no-repeat,
     #fff; 
 }
@@ -242,36 +242,6 @@
   overflow-x: hidden;
 }
 
-<<<<<<< Updated upstream
-  /* Responsive tweaks */
-@media (max-width: 900px) {
-    
-    .hero-split {
-    flex-direction: column;
-    }
-    .split-half {
-        flex: unset;
-        width: 100vw;
-        height: 220px;
-    }
-    .profile-photo-container {
-        width: 220px;
-        height: 220px;
-        top: 65%;
-    }
-}
-@media (max-width: 500px) {
-    .profile-photo-container { width: 140px; height: 140px; }
-    .ribbon-badge { width: 120px; right: 1rem; top: 1rem;}
-    .profile-photo-split.left {
-        border-radius: 70px 0 0 70px;
-        clip-path: inset(0 0 0 0 round 70px 0 0 70px);
-    }
-    .profile-photo-split.right {
-        border-radius: 0 70px 70px 0;
-        clip-path: inset(0 0 0 0 round 0 70px 70px 0);
-    }
-=======
 /* Enhanced Responsive Design for Production Deployment (20% larger resolution) */
 
 /* Large Desktop (1440px+) - Production ready */
@@ -409,7 +379,6 @@
     top: 1.5rem;
     right: 1.5rem;
   }
->>>>>>> Stashed changes
 }
 
 /* Mobile Portrait (600px-767px) */
@@ -437,14 +406,6 @@
   }
   
   .qualification-box {
-<<<<<<< Updated upstream
-    max-width: 98vw;
-    min-height: 72px;
-    border-radius: 1rem;
-  }
-  .rwth-bg { width: 56px; left: 7px;}
-  .qualification-text { margin-left: 68px; font-size: 1rem; }
-=======
     max-width: 95vw;
     min-height: 85px;
     border-radius: 1rem;
@@ -602,7 +563,6 @@
   .tagline-container {
     min-height: 95px;
   }
->>>>>>> Stashed changes
 }
 
 @keyframes pulseGlow {
