@@ -10,22 +10,66 @@ import resumePM from '../assets/resume_pm_analyst.pdf';
 import { useNavigate } from 'react-router-dom';
 
 const TAGLINE_RIGHT =
-  "Blending machine learning and analytics with business process intelligence";
+  "Blending machine learning and analytics with business process intelligence.";
 const TAGLINE_LEFT =
-  "Specialist in process mining, LLM-driven conformance checks, and Action Flow";
+  "Specialist in process mining, LLM-driven conformance checks, and Action Flow.";
 
-// const RESUME_URL = '../assets/resume_data_analyst.pdf';
+// Typing animation hook
+const useTypingEffect = (text, isActive, speed = 40) => {
+  const [displayText, setDisplayText] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    if (!isActive || !text) {
+      setDisplayText('');
+      setIsComplete(false);
+      return;
+    }
+    
+    setDisplayText('');
+    setIsComplete(false);
+    
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index < text.length) {
+        setDisplayText(text.slice(0, index + 1));
+        index++;
+      } else {
+        setIsComplete(true);
+        clearInterval(timer);
+      }
+    }, speed);
+    
+    return () => clearInterval(timer);
+  }, [text, isActive, speed]);
+
+  return { displayText, isComplete };
+};
 
 export default function Section() {
   const [hovered, setHovered] = useState(null); // 'left', 'right', or null
   const [animationDone, setAnimationDone] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
 
-  
+  // Typing animations
+  const leftTyping = useTypingEffect(TAGLINE_LEFT, hovered === 'left');
+  const rightTyping = useTypingEffect(TAGLINE_RIGHT, hovered === 'right');
+
   useEffect(() => {
     // Animation is 0.9s, so after 900ms, show the full photo
     const timer = setTimeout(() => setAnimationDone(true), 900);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 900);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Navigation logic on click
@@ -34,7 +78,19 @@ export default function Section() {
     else if (side === 'right') navigate('/projects?mode=data-analyst');
   };
 
+  const handleInteraction = (side) => {
+    if (isMobile) {
+      // Toggle on mobile/tablet
+      setHovered(hovered === side ? null : side);
+    } else {
+      // On desktop, navigate immediately
+      goToSection(side);
+    }
+  };
+
   function handleMouseMove(e) {
+    if (isMobile) return; // Disable mouse move on mobile
+    
     const bounds = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - bounds.left;
     const width = bounds.width;
@@ -54,20 +110,28 @@ export default function Section() {
       <div
         className={styles['hero-split']}
         onMouseMove={handleMouseMove}
-        onMouseLeave={() => setHovered(null)}
+        onMouseLeave={() => !isMobile && setHovered(null)}
       >
 
         {/* Left half */}
         <div
-          // className={`${styles['split-half']} ${styles.left} ${hovered === 'right' ? styles.hide : ''}`}
           className={`${styles['split-half']} ${styles.left} ${hovered === 'right' ? styles.hide : ''} ${hovered === 'left' ? styles.expanded : ''}`}
-          onMouseEnter={() => setHovered('left')}
-          onMouseLeave={() => setHovered(null)}
-          onClick={() => goToSection('left')}
+          onMouseEnter={() => !isMobile && setHovered('left')}
+          onMouseLeave={() => !isMobile && setHovered(null)}
+          onClick={() => handleInteraction('left')}
         >
           <div className={styles['split-content']}>
             <h1 className="text-8xl font-bold text-blue-800 mb-7">Process Mining Analyst</h1>
-            <span className="text-1xl text-gray-700 block text-center max-w-xs mb-2">{TAGLINE_LEFT}</span>
+            <div className={styles['tagline-container']}>
+              {hovered === 'left' ? (
+                <span className={`text-1xl text-gray-700 block text-center max-w-xs mb-2 ${styles['typing-text']}`}>
+                  {leftTyping.displayText}
+                  {!leftTyping.isComplete && <span className={styles['typing-cursor']}></span>}
+                </span>
+              ) : (
+                <span className="text-1xl text-gray-700 block text-center max-w-xs mb-2">{TAGLINE_LEFT}</span>
+              )}
+            </div>
             <a
               className={styles['resume-btn']}
               href={resumePM}
@@ -115,15 +179,23 @@ export default function Section() {
 
         {/* Right half */}
         <div
-          // className={`${styles['split-half']} ${styles.right} ${hovered === 'left' ? styles.hide : ''}`}
           className={`${styles['split-half']} ${styles.right} ${hovered === 'left' ? styles.hide : ''} ${hovered === 'right' ? styles.expanded : ''}`}
-          onMouseEnter={() => setHovered('right')}
-          onMouseLeave={() => setHovered(null)}
-          onClick={() => goToSection('right')}
+          onMouseEnter={() => !isMobile && setHovered('right')}
+          onMouseLeave={() => !isMobile && setHovered(null)}
+          onClick={() => handleInteraction('right')}
         >
           <div className={styles['split-content']}>
             <h2 className="text-8xl font-bold text-blue-800 mb-7">Data Analyst</h2>
-            <span className="text-gray-700 block text-center max-w-xs mb-2">{TAGLINE_RIGHT}</span>
+            <div className={styles['tagline-container']}>
+              {hovered === 'right' ? (
+                <span className={`text-gray-700 block text-center max-w-xs mb-2 ${styles['typing-text']}`}>
+                  {rightTyping.displayText}
+                  {!rightTyping.isComplete && <span className={styles['typing-cursor']}></span>}
+                </span>
+              ) : (
+                <span className="text-gray-700 block text-center max-w-xs mb-2">{TAGLINE_RIGHT}</span>
+              )}
+            </div>
             <a
               className={styles['resume-btn']}
               href={resumeDA}
