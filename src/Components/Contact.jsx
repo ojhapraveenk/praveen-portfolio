@@ -28,7 +28,7 @@ function Contact() {
       href: 'https://linkedin.com/in/praveenojha3110',
       color: '#0077b5',
       status: 'Professional network',
-      angle: 72
+      angle: 288
     },
     {
       id: 'gitlab',
@@ -58,7 +58,7 @@ function Contact() {
       href: 'https://www.google.com/maps/place/Pfaffenwaldring+42A,+70569+Stuttgart,+Germany/',
       color: '#8b5cf6',
       status: 'Open to meet',
-      angle: 288
+      angle: 72
     }
   ];
 
