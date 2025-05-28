@@ -1,11 +1,11 @@
-/* Contact.css */
+/* Contact.css - Enhanced Responsive Design */
 
 .contact-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
   position: relative;
   overflow: hidden;
-  padding: 2rem 0;
+  padding: 1rem 0;
 }
 
 /* Animated Background */
@@ -61,12 +61,12 @@
   position: relative;
   z-index: 10;
   text-align: center;
-  padding: 2rem 2rem 4rem;
+  padding: 2rem;
   animation: fadeInDown 1s ease-out;
 }
 
 .process-title {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .main-title {
@@ -155,20 +155,21 @@
 
 /* Process Steps Timeline */
 .process-steps {
-    display: flex;
-    justify-content: center; /* Changed from center */
-    margin-bottom: 6rem;
-    flex-wrap: nowrap; /* Changed from wrap */
-    gap: 0.5rem; /* Reduced gap */
-    max-width: 1200px; /* Add max-width */
-    margin-left: auto; /* Center the container */
-    margin-right: auto; /* Center the container */
-    padding: 0 1rem; /* Add padding for mobile */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+  flex-wrap: nowrap;
+  gap: 0.1rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
 }
+
 .process-step {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.3rem;
   position: relative;
   transition: all 0.6s ease;
 }
@@ -179,8 +180,8 @@
 
 .step-indicator {
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -228,7 +229,7 @@
 
 .step-content {
   color: white;
-  min-width: 200px;
+  min-width: 150px;
 }
 
 .step-label {
@@ -244,7 +245,7 @@
 }
 
 .step-connector {
-  width: 100px;
+  width: 120px;
   height: 2px;
   background: #475569;
   margin: 0 1rem;
@@ -801,44 +802,226 @@
   }
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
+/* Enhanced Responsive Design - Following your Education pattern */
+
+/* Large Desktop (1440px+) - Production ready (Base) */
+@media (min-width: 1440px) {
+  .contact-container {
+    padding: 2.5rem 0;
+  }
+  
+  .main-title {
+    font-size: 4.5rem;
+  }
+  
+  .profile-photo-large {
+    width: 280px;
+    height: 280px;
+  }
+  
   .contact-methods-orbital {
-    width: 500px;
-    height: 500px;
+    width: 650px;
+    height: 650px;
   }
   
   .contact-method-node {
     transform: 
       translate(-50%, -50%) 
       rotate(var(--angle)) 
-      translateX(230px) 
+      translateX(300px) 
       rotate(calc(-1 * var(--angle)));
   }
   
-  .contact-method-node.hovered {
+  .method-circle {
+    width: 85px;
+    height: 85px;
+    font-size: 1.6rem;
+  }
+  
+  .process-stats {
+    gap: 2.5rem;
+  }
+  
+  .stat-card {
+    padding: 2rem 2.5rem;
+  }
+}
+
+/* Standard Desktop (1200px-1439px) - 90% of base */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .contact-container {
+    padding: 2.25rem 0;
+  }
+  
+  .main-title {
+    font-size: 4rem;
+  }
+  
+  .profile-photo-large {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .contact-methods-orbital {
+    width: 585px;
+    height: 585px;
+  }
+  
+  .contact-method-node {
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--angle)) 
+      translateX(270px) 
+      rotate(calc(-1 * var(--angle)));
+  }
+  
+  .method-circle {
+    width: 77px;
+    height: 77px;
+    font-size: 1.44rem;
+  }
+  
+  .process-stats {
+    gap: 2.25rem;
+  }
+  
+  .stat-card {
+    padding: 1.8rem 2.25rem;
+  }
+}
+
+/* Laptop (1024px-1199px) - 80% of base */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .contact-container {
+    padding: 2rem 0;
+  }
+  
+  .main-title {
+    font-size: 3.6rem;
+  }
+  
+  .profile-photo-large {
+    width: 224px;
+    height: 224px;
+  }
+  
+  .contact-methods-orbital {
+    width: 520px;
+    height: 520px;
+  }
+  
+  .contact-method-node {
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--angle)) 
+      translateX(240px) 
+      rotate(calc(-1 * var(--angle)));
+  }
+  
+  .method-circle {
+    width: 68px;
+    height: 68px;
+    font-size: 1.28rem;
+  }
+  
+  .process-stats {
+    gap: 2rem;
+  }
+  
+  .stat-card {
+    padding: 1.6rem 2rem;
+  }
+  
+  .stat-number {
+    font-size: 2.2rem;
+  }
+}
+
+/* Tablet Landscape (901px-1023px) - 70% of base */
+@media (min-width: 901px) and (max-width: 1023px) {
+  .contact-container {
+    padding: 1.75rem 0;
+  }
+  
+  .main-title {
+    font-size: 3.15rem;
+  }
+  
+  .profile-photo-large {
+    width: 196px;
+    height: 196px;
+  }
+  
+  .contact-methods-orbital {
+    width: 455px;
+    height: 455px;
+  }
+  
+  .contact-method-node {
     transform: 
       translate(-50%, -50%) 
       rotate(var(--angle)) 
       translateX(210px) 
-      rotate(calc(-1 * var(--angle)))
-      scale(1.1);
+      rotate(calc(-1 * var(--angle)));
+  }
+  
+  .method-circle {
+    width: 60px;
+    height: 60px;
+    font-size: 1.12rem;
+  }
+  
+  .process-stats {
+    gap: 1.75rem;
+  }
+  
+  .stat-card {
+    padding: 1.4rem 1.75rem;
+  }
+  
+  .stat-number {
+    font-size: 1.95rem;
+  }
+  
+  .orbital-ring.ring-1 {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .orbital-ring.ring-2 {
+    width: 330px;
+    height: 330px;
+  }
+  
+  .orbital-ring.ring-3 {
+    width: 380px;
+    height: 380px;
   }
 }
 
-@media (max-width: 992px) {
+/* Tablet Portrait & Mobile Landscape (768px-900px) - 60% of base */
+@media (min-width: 768px) and (max-width: 900px) {
+  .contact-container {
+    padding: 1.5rem 0;
+  }
+  
   .main-title {
-    font-size: 3rem;
+    font-size: 2.7rem;
+  }
+  
+  .profile-container {
+    width: 300px;
+    height: 300px;
   }
   
   .profile-photo-large {
-    width: 200px;
-    height: 200px;
+    width: 168px;
+    height: 168px;
   }
   
   .contact-methods-orbital {
-    width: 400px;
-    height: 400px;
+    width: 390px;
+    height: 390px;
   }
   
   .contact-method-node {
@@ -850,90 +1033,9 @@
   }
   
   .method-circle {
-    width: 60px;
-    height: 60px;
-    font-size: 1.25rem;
-  }
-  
-  .process-steps {
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
-  
-  .step-connector {
-    transform: rotate(90deg);
-    margin: 1rem 0;
-  }
-}
-
-@media (max-width: 768px) {
-  .contact-container {
-    padding: 1rem 0;
-  }
-  
-  .main-title {
-    font-size: 2.5rem;
-  }
-  
-  .process-subtitle {
-    font-size: 1rem;
-  }
-  
-  .process-stats {
-    gap: 1rem;
-  }
-  
-  .stat-card {
-    padding: 1rem 1.5rem;
-  }
-  
-  .stat-number {
-    font-size: 2rem;
-  }
-  
-  .profile-container {
-    width: 300px;
-    height: 300px;
-  }
-  
-  .profile-photo-large {
-    width: 150px;
-    height: 150px;
-  }
-  
-  .orbital-ring.ring-1 {
-    width: 220px;
-    height: 220px;
-  }
-  
-  .orbital-ring.ring-2 {
-    width: 260px;
-    height: 260px;
-  }
-  
-  .orbital-ring.ring-3 {
-    width: 300px;
-    height: 300px;
-  }
-  
-  .contact-methods-orbital {
-    width: 320px;
-    height: 320px;
-  }
-  
-  .contact-method-node {
-    transform: 
-      translate(-50%, -50%) 
-      rotate(var(--angle)) 
-      translateX(140px) 
-      rotate(calc(-1 * var(--angle)));
-  }
-  
-  .method-circle {
-    width: 50px;
-    height: 50px;
-    font-size: 1rem;
+    width: 51px;
+    height: 51px;
+    font-size: 0.96rem;
   }
   
   .method-info {
@@ -941,63 +1043,157 @@
   }
   
   .method-label {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
   }
   
   .method-value {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
   }
   
-  .availability-info {
+  .process-stats {
+    gap: 1.5rem;
+  }
+  
+  .stat-card {
+    padding: 1.2rem 1.5rem;
+  }
+  
+  .stat-number {
+    font-size: 1.7rem;
+  }
+  
+  .orbital-ring.ring-1 {
+    width: 240px;
+    height: 240px;
+  }
+  
+  .orbital-ring.ring-2 {
+    width: 285px;
+    height: 285px;
+  }
+  
+  .orbital-ring.ring-3 {
+    width: 330px;
+    height: 330px;
+  }
+  
+  .process-steps {
     flex-direction: column;
     align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
   }
   
-  .availability-card {
-    min-width: 200px;
-    padding: 1.5rem;
+  .step-connector {
+    transform: rotate(90deg);
+    margin: 1rem 0;
+    width: 60px;
   }
   
-  .success-content {
-    padding: 2rem;
-    margin: 1rem;
+  .step-content {
+    min-width: 180px;
+    text-align: center;
   }
   
-  .success-content h3 {
-    font-size: 1.5rem;
-  }
-  
-  .success-content p {
-    font-size: 1rem;
+  .floating-skills {
+    display: none; /* Hide floating skills on tablet */
   }
 }
 
-@media (max-width: 480px) {
+/* Mobile Portrait (600px-767px) - 50% of base */
+@media (min-width: 600px) and (max-width: 767px) {
+  .contact-container {
+    padding: 1.25rem 0;
+  }
+  
   .main-title {
-    font-size: 2rem;
+    font-size: 2.25rem;
+  }
+  
+  .process-subtitle {
+    font-size: 1rem;
+  }
+  
+  .profile-container {
+    width: 250px;
+    height: 250px;
   }
   
   .profile-photo-large {
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
   }
   
-  .method-circle {
-    width: 40px;
-    height: 40px;
-    font-size: 0.875rem;
+  .contact-methods-orbital {
+    width: 325px;
+    height: 325px;
   }
   
   .contact-method-node {
     transform: 
       translate(-50%, -50%) 
       rotate(var(--angle)) 
-      translateX(100px) 
+      translateX(150px) 
       rotate(calc(-1 * var(--angle)));
   }
   
-  .floating-skills {
-    display: none; /* Hide on very small screens */
+  .method-circle {
+    width: 43px;
+    height: 43px;
+    font-size: 0.8rem;
+  }
+  
+  .method-info {
+    min-width: 100px;
+  }
+  
+  .method-label {
+    font-size: 0.8rem;
+  }
+  
+  .method-value {
+    font-size: 0.7rem;
+  }
+  
+  .method-status {
+    font-size: 0.65rem;
+  }
+  
+  .process-stats {
+    gap: 1.25rem;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stat-card {
+    padding: 1rem 1.25rem;
+    min-width: 200px;
+  }
+  
+  .stat-number {
+    font-size: 1.4rem;
+  }
+  
+  .orbital-ring.ring-1 {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .orbital-ring.ring-2 {
+    width: 240px;
+    height: 240px;
+  }
+  
+  .orbital-ring.ring-3 {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .process-steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 3rem;
   }
   
   .step-indicator {
@@ -1007,5 +1203,481 @@
   
   .step-number {
     font-size: 1rem;
+  }
+  
+  .step-content {
+    min-width: 160px;
+    text-align: center;
+  }
+  
+  .step-label {
+    font-size: 0.9rem;
+  }
+  
+  .step-status {
+    font-size: 0.8rem;
+  }
+  
+  .availability-info {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  
+  .availability-card {
+    min-width: 220px;
+    padding: 1.5rem;
+  }
+  
+  .floating-skills {
+    display: none;
+  }
+}
+
+/* Small Mobile (480px-599px) - 40% of base */
+@media (min-width: 480px) and (max-width: 599px) {
+  .contact-container {
+    padding: 1rem 0;
+  }
+  
+  .main-title {
+    font-size: 1.8rem;
+  }
+  
+  .process-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .profile-container {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .profile-photo-large {
+    width: 112px;
+    height: 112px;
+  }
+  
+  .contact-methods-orbital {
+    width: 260px;
+    height: 260px;
+  }
+  
+  .contact-method-node {
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--angle)) 
+      translateX(120px) 
+      rotate(calc(-1 * var(--angle)));
+  }
+  
+  .method-circle {
+    width: 34px;
+    height: 34px;
+    font-size: 0.64rem;
+  }
+  
+  .method-info {
+    min-width: 80px;
+  }
+  
+  .method-label {
+    font-size: 0.7rem;
+  }
+  
+  .method-value {
+    font-size: 0.6rem;
+  }
+  
+  .method-status {
+    font-size: 0.55rem;
+  }
+  
+  .process-stats {
+    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stat-card {
+    padding: 0.8rem 1rem;
+    min-width: 160px;
+  }
+  
+  .stat-number {
+    font-size: 1.1rem;
+  }
+  
+  .stat-label {
+    font-size: 0.75rem;
+  }
+  
+  .orbital-ring.ring-1 {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .orbital-ring.ring-2 {
+    width: 190px;
+    height: 190px;
+  }
+  
+  .orbital-ring.ring-3 {
+    width: 220px;
+    height: 220px;
+  }
+  
+  .process-steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .step-indicator {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .step-number {
+    font-size: 0.9rem;
+  }
+  
+  .step-content {
+    min-width: 140px;
+    text-align: center;
+  }
+  
+  .step-label {
+    font-size: 0.8rem;
+  }
+  
+  .step-status {
+    font-size: 0.7rem;
+  }
+  
+  .availability-info {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .availability-card {
+    min-width: 180px;
+    padding: 1.2rem;
+  }
+  
+  .availability-card i {
+    font-size: 1.5rem;
+  }
+  
+  .info-label {
+    font-size: 0.75rem;
+  }
+  
+  .info-value {
+    font-size: 1rem;
+  }
+  
+  .floating-skills {
+    display: none;
+  }
+}
+
+/* Extra Small Mobile (320px-479px) - 30% of base */
+@media (max-width: 479px) {
+  .contact-container {
+    padding: 0.75rem 0;
+  }
+  
+  .process-header {
+    padding: 1.5rem 1rem 3rem;
+  }
+  
+  .main-title {
+    font-size: 1.35rem;
+  }
+  
+  .process-subtitle {
+    font-size: 0.8rem;
+  }
+  
+  .profile-container {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .profile-photo-large {
+    width: 84px;
+    height: 84px;
+  }
+  
+  .contact-methods-orbital {
+    width: 195px;
+    height: 195px;
+  }
+  
+  .contact-method-node {
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--angle)) 
+      translateX(90px) 
+      rotate(calc(-1 * var(--angle)));
+  }
+  
+  .method-circle {
+    width: 26px;
+    height: 26px;
+    font-size: 0.48rem;
+  }
+  
+  .method-info {
+    min-width: 60px;
+  }
+  
+  .method-label {
+    font-size: 0.6rem;
+  }
+  
+  .method-value {
+    font-size: 0.5rem;
+  }
+  
+  .method-status {
+    font-size: 0.45rem;
+  }
+  
+  .process-stats {
+    gap: 0.75rem;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stat-card {
+    padding: 0.6rem 0.75rem;
+    min-width: 120px;
+  }
+  
+  .stat-number {
+    font-size: 0.8rem;
+  }
+  
+  .stat-label {
+    font-size: 0.6rem;
+  }
+  
+  .orbital-ring.ring-1 {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .orbital-ring.ring-2 {
+    width: 145px;
+    height: 145px;
+  }
+  
+  .orbital-ring.ring-3 {
+    width: 170px;
+    height: 170px;
+  }
+  
+  .process-steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  
+  .step-indicator {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .step-number {
+    font-size: 0.7rem;
+  }
+  
+  .step-content {
+    min-width: 100px;
+    text-align: center;
+  }
+  
+  .step-label {
+    font-size: 0.6rem;
+  }
+  
+  .step-status {
+    font-size: 0.55rem;
+  }
+  
+  .central-hub {
+    min-height: 300px;
+    margin: 2rem 0;
+  }
+  
+  .availability-info {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .availability-card {
+    min-width: 140px;
+    padding: 0.9rem;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .availability-card i {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .info-label {
+    font-size: 0.6rem;
+  }
+  
+  .info-value {
+    font-size: 0.8rem;
+  }
+  
+  .floating-skills {
+    display: none;
+  }
+  
+  .profile-status {
+    bottom: 10px;
+    right: 10px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
+  }
+  
+  .status-dot {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+/* Production Deployment Adjustments (20% larger than test) - 120% of base */
+@media (min-width: 1920px) {
+  .contact-container {
+    padding: 3rem 0;
+  }
+  
+  .main-title {
+    font-size: 5.4rem;
+  }
+  
+  .profile-photo-large {
+    width: 336px;
+    height: 336px;
+  }
+  
+  .contact-methods-orbital {
+    width: 780px;
+    height: 780px;
+  }
+  
+  .contact-method-node {
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--angle)) 
+      translateX(360px) 
+      rotate(calc(-1 * var(--angle)));
+  }
+  
+  .method-circle {
+    width: 102px;
+    height: 102px;
+    font-size: 1.92rem;
+  }
+  
+  .process-stats {
+    gap: 3rem;
+  }
+  
+  .stat-card {
+    padding: 2.4rem 3rem;
+  }
+  
+  .stat-number {
+    font-size: 3.6rem;
+  }
+  
+  .orbital-ring.ring-1 {
+    width: 480px;
+    height: 480px;
+  }
+  
+  .orbital-ring.ring-2 {
+    width: 570px;
+    height: 570px;
+  }
+  
+  .orbital-ring.ring-3 {
+    width: 660px;
+    height: 660px;
+  }
+}
+
+/* Ultra-wide Screens (2560px+) - 140% of base */
+@media (min-width: 2560px) {
+  .contact-container {
+    padding: 3.5rem 0;
+  }
+  
+  .main-title {
+    font-size: 6.3rem;
+  }
+  
+  .profile-photo-large {
+    width: 392px;
+    height: 392px;
+  }
+  
+  .contact-methods-orbital {
+    width: 910px;
+    height: 910px;
+  }
+  
+  .contact-method-node {
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--angle)) 
+      translateX(420px) 
+      rotate(calc(-1 * var(--angle)));
+  }
+  
+  .method-circle {
+    width: 119px;
+    height: 119px;
+    font-size: 2.24rem;
+  }
+  
+  .process-stats {
+    gap: 3.5rem;
+  }
+  
+  .stat-card {
+    padding: 2.8rem 3.5rem;
+  }
+  
+  .stat-number {
+    font-size: 4.2rem;
+  }
+  
+  .orbital-ring.ring-1 {
+    width: 560px;
+    height: 560px;
+  }
+  
+  .orbital-ring.ring-2 {
+    width: 665px;
+    height: 665px;
+  }
+  
+  .orbital-ring.ring-3 {
+    width: 770px;
+    height: 770px;
   }
 }
