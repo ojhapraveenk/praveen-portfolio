@@ -158,7 +158,7 @@ function Contact() {
               <div className="profile-glow"></div>
               <div className="profile-status">
                 <div className="status-dot"></div>
-                <span>Available</span>
+                <span>Open to work</span>
               </div>
             </div>
 
