@@ -230,6 +230,17 @@ export default function Education() {
         }
     };
 
+    // Custom tick alias mapping
+    const tickAlias = {
+        1.1: '1,1',
+        1.5: '1,5',
+        2.0: '2,0',
+        2.3: '2,3'
+    };
+    
+    // Tick formatter function
+    const tickFormatter = (value) => tickAlias[value] || value;
+
     return (
         <div 
             className={styles['education-container']}
@@ -414,6 +425,7 @@ export default function Education() {
                                             allowDecimals={true}
                                             padding={{ top: 20, bottom: 20 }}
                                             ticks={[1.1, 1.5, 2.0, 2.3]} // Only show these specific values
+                                            tickFormatter={tickFormatter}
                                         />
                                         
                                         {/* Custom Tooltip */}
