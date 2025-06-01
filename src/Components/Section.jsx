@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './SplitHero.module.css';
+import mobileStyles from './MobileHeroSection.module.css';
 import profilePhoto from '../assets/profile_photo.jpg';
 import chestRibbon from '../assets/chest_ribbon.png';
 import SkillsTrain from "./SkillsTrain.jsx";
@@ -46,10 +47,117 @@ const useTypingEffect = (text, isActive, speed = 40) => {
   return { displayText, isComplete };
 };
 
-export default function Section() {
+// Mobile Hero Component (embedded)
+const MobileHeroSection = () => {
+  const [animationDone, setAnimationDone] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Simple fade-in animation
+    const timer = setTimeout(() => setAnimationDone(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleCareerNavigation = (careerType) => {
+    if (careerType === 'process-mining') {
+      navigate('/projects?mode=process-mining-analyst');
+    } else if (careerType === 'data-analyst') {
+      navigate('/projects?mode=data-analyst');
+    }
+  };
+
+  return (
+    <div className={mobileStyles.mobileContainer}>
+      {/* Ribbon Badge */}
+      <img 
+        src={chestRibbon} 
+        alt="5+ Years Experience" 
+        className={mobileStyles.ribbonBadge} 
+      />
+
+      {/* Profile Photo Section */}
+      <div className={mobileStyles.profileSection}>
+        <div className={mobileStyles.profilePhotoContainer}>
+          <img
+            src={profilePhoto}
+            alt="Praveen Kumar Ojha Profile"
+            className={`${mobileStyles.profilePhoto} ${animationDone ? mobileStyles.visible : ''}`}
+          />
+        </div>
+        <h1 className={mobileStyles.mainTitle}>Praveen Kumar Ojha</h1>
+        {/* <p className={mobileStyles.subtitle}>Choose Your Analytics Path</p> */}
+        {/* Qualification Box */}
+        <div className={mobileStyles.qualificationBox}>
+          <img
+            src={rwthlogo}
+            alt="RWTH Aachen University"
+            className={mobileStyles.rwthLogo}
+          />
+          <div className={mobileStyles.qualificationText}>
+            <div>M.Sc. Data Analytics and Decision Science</div>
+          </div>
+        </div>
+        {/* Skills Train */}
+        <div className={mobileStyles.skillsTrainWrapper}>
+          <SkillsTrain />
+        </div>
+      </div>
+
+      {/* Career Path Cards */}
+      <div className={mobileStyles.careerPathsContainer}>
+        
+        {/* Process Mining Analyst Card */}
+        <div 
+          className={`${mobileStyles.careerCard} ${mobileStyles.processMining}`}
+          onClick={() => handleCareerNavigation('process-mining')}
+        >
+          <div className={mobileStyles.cardContent}>
+            <h2 className={mobileStyles.cardTitle}>Process Mining Analyst</h2>
+            <p className={mobileStyles.cardDescription}>
+              Specialist in process mining, LLM-driven conformance checks, and Action Flow.
+            </p>
+            <a
+              className={mobileStyles.resumeBtn}
+              href={resumePM}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+            >
+              See Resume
+            </a>
+          </div>
+        </div>
+
+        {/* Data Analyst Card */}
+        <div 
+          className={`${mobileStyles.careerCard} ${mobileStyles.dataAnalyst}`}
+          onClick={() => handleCareerNavigation('data-analyst')}
+        >
+          <div className={mobileStyles.cardContent}>
+            <h2 className={mobileStyles.cardTitle}>Data Analyst</h2>
+            <p className={mobileStyles.cardDescription}>
+              Blending machine learning and analytics with business process intelligence.
+            </p>
+            <a
+              className={mobileStyles.resumeBtn}
+              href={resumeDA}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+            >
+              See Resume
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Desktop Hero Component (your existing design)
+const DesktopHeroSection = () => {
   const [hovered, setHovered] = useState(null); // 'left', 'right', or null
   const [animationDone, setAnimationDone] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
 
   // Typing animations
@@ -62,35 +170,13 @@ export default function Section() {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 900);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
   // Navigation logic on click
   const goToSection = (side) => {
     if (side === 'left') navigate('/projects?mode=process-mining-analyst');
     else if (side === 'right') navigate('/projects?mode=data-analyst');
   };
 
-  const handleInteraction = (side) => {
-    if (isMobile) {
-      // Toggle on mobile/tablet
-      setHovered(hovered === side ? null : side);
-    } else {
-      // On desktop, navigate immediately
-      goToSection(side);
-    }
-  };
-
   function handleMouseMove(e) {
-    if (isMobile) return; // Disable mouse move on mobile
-    
     const bounds = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - bounds.left;
     const width = bounds.width;
@@ -110,15 +196,15 @@ export default function Section() {
       <div
         className={styles['hero-split']}
         onMouseMove={handleMouseMove}
-        onMouseLeave={() => !isMobile && setHovered(null)}
+        onMouseLeave={() => setHovered(null)}
       >
 
         {/* Left half */}
         <div
           className={`${styles['split-half']} ${styles.left} ${hovered === 'right' ? styles.hide : ''} ${hovered === 'left' ? styles.expanded : ''}`}
-          onMouseEnter={() => !isMobile && setHovered('left')}
-          onMouseLeave={() => !isMobile && setHovered(null)}
-          onClick={() => handleInteraction('left')}
+          onMouseEnter={() => setHovered('left')}
+          onMouseLeave={() => setHovered(null)}
+          onClick={() => goToSection('left')}
         >
           <div className={styles['split-content']}>
             <h1 className="text-8xl font-bold text-blue-800 mb-7">Process Mining Analyst</h1>
@@ -180,9 +266,9 @@ export default function Section() {
         {/* Right half */}
         <div
           className={`${styles['split-half']} ${styles.right} ${hovered === 'left' ? styles.hide : ''} ${hovered === 'right' ? styles.expanded : ''}`}
-          onMouseEnter={() => !isMobile && setHovered('right')}
-          onMouseLeave={() => !isMobile && setHovered(null)}
-          onClick={() => handleInteraction('right')}
+          onMouseEnter={() => setHovered('right')}
+          onMouseLeave={() => setHovered(null)}
+          onClick={() => goToSection('right')}
         >
           <div className={styles['split-content']}>
             <h2 className="text-8xl font-bold text-blue-800 mb-7">Data Analyst</h2>
@@ -222,4 +308,45 @@ export default function Section() {
       </div>
     </div>
   );
+};
+
+// Main Section Component with Device Detection
+export default function Section() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      // Using 767px as the breakpoint (tablets and below get mobile version)
+      setIsMobile(window.innerWidth <= 767);
+    };
+    
+    // Initial check
+    checkDevice();
+    setIsLoaded(true);
+    
+    // Add resize listener
+    window.addEventListener('resize', checkDevice);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
+
+  // Prevent flash of wrong component during initial load
+  if (!isLoaded) {
+    return (
+      <div style={{ 
+        height: '40vh', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        background: '#f9fbff'
+      }}>
+        <div style={{ color: '#6b7280' }}>Loading...</div>
+      </div>
+    );
+  }
+
+  // Render appropriate component based on screen size
+  return isMobile ? <MobileHeroSection /> : <DesktopHeroSection />;
 }

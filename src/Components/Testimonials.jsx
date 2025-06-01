@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // Import your assets
 import lkrecommendation1 from "../assets/recommendations/lk_recommendation.png";
@@ -84,6 +84,23 @@ export default function Testimonials() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalItem, setModalItem] = useState(null);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Touch/swipe handling
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const sliderRef = useRef(null);
+
+  // Check if mobile
+  useEffect(() => {
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+    
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % items.length);
@@ -95,6 +112,32 @@ export default function Testimonials() {
 
   const goToSlide = (index) => {
     setCurrentIndex(index);
+  };
+
+  // Touch handlers for swipe functionality
+  const handleTouchStart = (e) => {
+    if (!isMobile) return;
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isMobile) return;
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!isMobile) return;
+    
+    const swipeThreshold = 50;
+    const diff = touchStartX.current - touchEndX.current;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        nextSlide(); // Swipe left = next slide
+      } else {
+        prevSlide(); // Swipe right = previous slide
+      }
+    }
   };
 
   useEffect(() => {
@@ -118,6 +161,26 @@ export default function Testimonials() {
     setModalOpen(false);
     setModalItem(null);
     setIsAutoPlaying(true);
+  };
+
+  // Handle clicking anywhere in modal to close
+  const handleModalClick = (e) => {
+    // Close modal when clicking on backdrop or modal content
+    closeModal();
+  };
+
+  // Prevent modal close when clicking on interactive elements
+  const handleModalContentClick = (e) => {
+    // Only prevent closing if clicking on specific interactive elements
+    if (e.target.tagName === 'BUTTON' || 
+        e.target.tagName === 'A' || 
+        e.target.closest('button') || 
+        e.target.closest('a')) {
+      e.stopPropagation();
+      return;
+    }
+    // For everything else (including images), close the modal
+    closeModal();
   };
 
   useEffect(() => {
@@ -192,11 +255,29 @@ export default function Testimonials() {
         </div>
       </div>
 
+      {/* Mobile Swipe Hint */}
+      {isMobile && (
+        <div className="text-center mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+            <span>👈</span>
+            <span>Swipe to navigate</span>
+            <span>👉</span>
+          </div>
+        </div>
+      )}
+
       {/* Slider Container */}
       <div className="max-w-7xl mx-auto relative">
         
         {/* Main slide display */}
-        <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-white">
+        <div 
+          ref={sliderRef}
+          className="relative overflow-hidden rounded-2xl shadow-2xl bg-white"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          style={{ touchAction: 'pan-y pinch-zoom' }} // Allow vertical scroll but handle horizontal swipes
+        >
           <div 
             className="flex transition-transform duration-700 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -212,7 +293,7 @@ export default function Testimonials() {
                   >
                     <div className="relative w-full max-w-md">
                       {item.type === "img" ? (
-                        <div className="aspect-[872/382] bg-white rounded-xl shadow-lg overflow-hidden group-hover:shadow-2xl transition-all duration-300 group-hover:scale-105">
+                        <div className="aspect-[872/382] bg-white rounded-xl shadow-lg overflow-hidden group-hover:shadow-2xl transition-all duration-300 group-hover:scale-105 group-active:scale-95">
                           <img 
                             src={item.src} 
                             alt={item.label}
@@ -220,7 +301,7 @@ export default function Testimonials() {
                           />
                         </div>
                       ) : (
-                        <div className="aspect-[872/382] bg-white rounded-xl shadow-lg overflow-hidden group-hover:shadow-2xl transition-all duration-300 group-hover:scale-105">
+                        <div className="aspect-[872/382] bg-white rounded-xl shadow-lg overflow-hidden group-hover:shadow-2xl transition-all duration-300 group-hover:scale-105 group-active:scale-95">
                           {renderPdfCover(item)}
                         </div>
                       )}
@@ -228,7 +309,9 @@ export default function Testimonials() {
                       {/* Hover overlay */}
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 rounded-xl flex items-center justify-center">
                         <div className="bg-white/90 px-6 py-3 rounded-full opacity-0 group-hover:opacity-100 transform scale-90 group-hover:scale-100 transition-all duration-300 shadow-lg">
-                          <span className="text-gray-800 font-semibold">Click to Expand</span>
+                          <span className="text-gray-800 font-semibold">
+                            {isMobile ? 'Tap to Expand' : 'Click to Expand'}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -250,6 +333,7 @@ export default function Testimonials() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-lg font-semibold text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200 flex items-center gap-2"
+                            onClick={(e) => e.stopPropagation()} // Prevent triggering swipe
                           >
                             {item.author}
                             <span className="text-blue-500">🔗</span>
@@ -273,8 +357,11 @@ export default function Testimonials() {
                     {/* Action buttons */}
                     <div className="space-y-3">
                       <button
-                        onClick={() => openModal(item)}
-                        className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent triggering swipe
+                          openModal(item);
+                        }}
+                        className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 active:scale-95 transition-all duration-300 shadow-lg hover:shadow-xl"
                       >
                         View Full {item.type === 'pdf' ? 'Document' : 'Recommendation'}
                       </button>
@@ -284,13 +371,17 @@ export default function Testimonials() {
                           <a
                             href={item.src}
                             download
-                            className="flex-1 text-center px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-gray-400 hover:bg-gray-50 transition-all duration-300"
+                            onClick={(e) => e.stopPropagation()} // Prevent triggering swipe
+                            className="flex-1 text-center px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-gray-400 hover:bg-gray-50 active:scale-95 transition-all duration-300"
                           >
                             📥 Download
                           </a>
                           <button
-                            onClick={() => window.open(item.src, '_blank')}
-                            className="flex-1 px-6 py-3 border-2 border-blue-300 text-blue-700 rounded-lg font-semibold hover:border-blue-400 hover:bg-blue-50 transition-all duration-300"
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent triggering swipe
+                              window.open(item.src, '_blank');
+                            }}
+                            className="flex-1 px-6 py-3 border-2 border-blue-300 text-blue-700 rounded-lg font-semibold hover:border-blue-400 hover:bg-blue-50 active:scale-95 transition-all duration-300"
                           >
                             🔗 Open in Tab
                           </button>
@@ -304,20 +395,24 @@ export default function Testimonials() {
           </div>
         </div>
 
-        {/* Navigation arrows */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group z-10"
-        >
-          <span className="text-xl text-gray-600 group-hover:text-gray-800">←</span>
-        </button>
-        
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group z-10"
-        >
-          <span className="text-xl text-gray-600 group-hover:text-gray-800">→</span>
-        </button>
+        {/* Navigation arrows - Hide on mobile */}
+        {!isMobile && (
+          <>
+            <button
+              onClick={prevSlide}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group z-10"
+            >
+              <span className="text-xl text-gray-600 group-hover:text-gray-800">←</span>
+            </button>
+            
+            <button
+              onClick={nextSlide}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group z-10"
+            >
+              <span className="text-xl text-gray-600 group-hover:text-gray-800">→</span>
+            </button>
+          </>
+        )}
 
         {/* Dots indicator */}
         <div className="flex justify-center space-x-3 mt-8">
@@ -328,44 +423,39 @@ export default function Testimonials() {
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === currentIndex 
                   ? 'bg-blue-600 w-8' 
-                  : 'bg-gray-300 hover:bg-gray-400'
+                  : 'bg-gray-300 hover:bg-gray-400 active:scale-95'
               }`}
             />
           ))}
         </div>
-
-        {/* Controls */}
-        {/* <div className="flex justify-center mt-6 space-x-4">
-          <button
-            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-              isAutoPlaying 
-                ? 'bg-green-100 text-green-800 hover:bg-green-200' 
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            {isAutoPlaying ? '⏸️ Pause' : '▶️ Play'}
-          </button>
-          <div className="text-sm text-gray-500 flex items-center">
-            Use arrow keys or spacebar to control
-          </div>
-        </div> */}
       </div>
 
-      {/* Modal */}
+      {/* Enhanced Modal with Click-anywhere-to-close */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 pt-16">
-          <div className="relative w-full h-full max-w-4xl max-h-full bg-white rounded-lg overflow-hidden shadow-2xl flex flex-col">
+        <div 
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 pt-16"
+          onClick={handleModalClick} // Click anywhere on backdrop to close
+        >
+          <div 
+            className="relative w-full h-full max-w-4xl max-h-full bg-white rounded-lg overflow-hidden shadow-2xl flex flex-col"
+            onClick={handleModalContentClick} // Handle clicks within modal content
+          >
             
             {/* Modal header */}
             <div className="flex justify-between items-center p-6 border-b border-gray-200 bg-gray-50">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">{modalItem?.label}</h2>
                 <p className="text-gray-600">{modalItem?.author} • {modalItem?.role}</p>
+                {isMobile && (
+                  <p className="text-sm text-gray-500 mt-1">Tap anywhere to close</p>
+                )}
               </div>
               <button
-                onClick={closeModal}
-                className="w-10 h-10 rounded-full bg-gray-200 hover:bg-red-100 hover:text-red-600 transition-all duration-200 flex items-center justify-center text-xl"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  closeModal();
+                }}
+                className="w-10 h-10 rounded-full bg-gray-200 hover:bg-red-100 hover:text-red-600 active:scale-95 transition-all duration-200 flex items-center justify-center text-xl"
               >
                 ×
               </button>
@@ -377,7 +467,8 @@ export default function Testimonials() {
                 <img 
                   src={modalItem.src} 
                   alt={modalItem.label}
-                  className="max-w-full max-h-full object-contain rounded-lg shadow-lg bg-white"
+                  className="max-w-full max-h-full object-contain rounded-lg shadow-lg bg-white cursor-pointer"
+                  onClick={() => closeModal()} // Click on image to close
                 />
               )}
             </div>
