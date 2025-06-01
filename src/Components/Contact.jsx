@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import profilePhoto from '../assets/profile_photo.jpg';
 import './Contact.css';
+import './MobileContact.css';
 
 function Contact() {
   const [selectedContact, setSelectedContact] = useState(null);
   const [processStep, setProcessStep] = useState('initiated');
   const [hoveredMethod, setHoveredMethod] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const flowLinesRef = useRef();
 
   // Contact methods with correct info from navbar
@@ -18,27 +20,8 @@ function Contact() {
       href: 'mailto:ojha.praveenk@gmail.com',
       color: '#3b82f6',
       status: '< 24h response',
-      angle: 0
-    },
-    {
-      id: 'linkedin',
-      icon: 'fab fa-linkedin',
-      label: 'LinkedIn',
-      value: 'praveenojha3110',
-      href: 'https://linkedin.com/in/praveenojha3110',
-      color: '#0077b5',
-      status: 'Professional network',
-      angle: 288
-    },
-    {
-      id: 'gitlab',
-      icon: 'fab fa-gitlab',
-      label: 'GitLab',
-      value: 'ojha.praveenk',
-      href: 'https://git.rwth-aachen.de/ojha.praveenk',
-      color: '#fc6d26',
-      status: 'Code & projects',
-      angle: 144
+      angle: 0,
+      priority: 'primary'
     },
     {
       id: 'phone',
@@ -48,7 +31,30 @@ function Contact() {
       href: 'tel:+4915207598759',
       color: '#10b981',
       status: 'Available weekdays',
-      angle: 216
+      angle: 216,
+      priority: 'primary'
+    },
+    {
+      id: 'linkedin',
+      icon: 'fab fa-linkedin',
+      label: 'LinkedIn',
+      value: 'praveenojha3110',
+      href: 'https://linkedin.com/in/praveenojha3110',
+      color: '#0077b5',
+      status: 'Professional network',
+      angle: 288,
+      priority: 'secondary'
+    },
+    {
+      id: 'gitlab',
+      icon: 'fab fa-gitlab',
+      label: 'GitLab',
+      value: 'ojha.praveenk',
+      href: 'https://git.rwth-aachen.de/ojha.praveenk',
+      color: '#fc6d26',
+      status: 'Code & projects',
+      angle: 144,
+      priority: 'secondary'
     },
     {
       id: 'location',
@@ -58,11 +64,12 @@ function Contact() {
       href: 'https://www.google.com/maps/place/Pfaffenwaldring+42A,+70569+Stuttgart,+Germany/',
       color: '#8b5cf6',
       status: 'Open to meet',
-      angle: 72
+      angle: 72,
+      priority: 'tertiary'
     }
   ];
 
-  // Process mining steps
+  // Process mining steps (for desktop only)
   const processSteps = [
     { id: 'initiated', label: 'Contact Process Initiated', status: 'completed' },
     { id: 'method-selection', label: 'Select Communication Method', status: processStep === 'initiated' ? 'active' : 'completed' },
@@ -70,28 +77,192 @@ function Contact() {
     { id: 'connection-established', label: 'Connection Established', status: processStep === 'connected' ? 'completed' : 'pending' }
   ];
 
-  // Animate process steps
+  // Check if mobile
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (processStep === 'initiated') {
-        setProcessStep('method-selection');
-      }
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [processStep]);
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+    
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
+
+  // Animate process steps (desktop only)
+  useEffect(() => {
+    if (!isMobile) {
+      const timer = setTimeout(() => {
+        if (processStep === 'initiated') {
+          setProcessStep('method-selection');
+        }
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [processStep, isMobile]);
 
   // Handle contact method selection
   const handleContactClick = (method) => {
     setSelectedContact(method);
-    setProcessStep('processing');
-    
-    setTimeout(() => {
-      setProcessStep('connected');
+    if (!isMobile) {
+      setProcessStep('processing');
+      setTimeout(() => {
+        setProcessStep('connected');
+        window.open(method.href, '_blank');
+      }, 1500);
+    } else {
+      // Simple immediate navigation on mobile
       window.open(method.href, '_blank');
-    }, 1500);
+    }
   };
 
-  return (
+  // Mobile Component
+  const MobileContact = () => (
+    <div className="mobile-contact-container">
+      {/* Mobile Header */}
+      <div className="mobile-header">
+        <h1 className="mobile-title">Contact Me</h1>
+      </div>
+
+      {/* Mobile Stats - Horizontal Scroll */}
+      <div className="mobile-stats-container">
+        <div className="mobile-stats">
+          <div className="mobile-stat-card">
+            <span className="mobile-stat-number">5</span>
+            <span className="mobile-stat-label">Contact Methods</span>
+          </div>
+          <div className="mobile-stat-card">
+            <span className="mobile-stat-number">24h</span>
+            <span className="mobile-stat-label">Avg Response</span>
+          </div>
+          <div className="mobile-stat-card">
+            <span className="mobile-stat-number">100%</span>
+            <span className="mobile-stat-label">Success Rate</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Profile Section */}
+      <div className="mobile-profile-section">
+        <div className="mobile-profile-container">
+          <img src={profilePhoto} alt="Praveen Kumar Ojha" className="mobile-profile-img" />
+          <div className="mobile-profile-status">
+            <div className="mobile-status-dot"></div>
+            <span>Open to work</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Contact Methods - Vertical Stack */}
+      <div className="mobile-contact-methods">
+        <h2 className="mobile-section-title">Get In Touch</h2>
+        
+        {/* Primary Methods */}
+        <div className="mobile-methods-group">
+          <h3 className="mobile-group-title">Primary Contact</h3>
+          {contactMethods.filter(method => method.priority === 'primary').map((method) => (
+            <div
+              key={method.id}
+              className="mobile-contact-card primary"
+              onClick={() => handleContactClick(method)}
+              style={{'--method-color': method.color}}
+            >
+              <div className="mobile-card-icon">
+                <i className={method.icon}></i>
+              </div>
+              <div className="mobile-card-content">
+                <div className="mobile-card-label">{method.label}</div>
+                <div className="mobile-card-value">{method.value}</div>
+                <div className="mobile-card-status">{method.status}</div>
+              </div>
+              <div className="mobile-card-arrow">
+                <i className="fas fa-arrow-right"></i>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Secondary Methods */}
+        <div className="mobile-methods-group">
+          <h3 className="mobile-group-title">Professional</h3>
+          {contactMethods.filter(method => method.priority === 'secondary').map((method) => (
+            <div
+              key={method.id}
+              className="mobile-contact-card secondary"
+              onClick={() => handleContactClick(method)}
+              style={{'--method-color': method.color}}
+            >
+              <div className="mobile-card-icon">
+                <i className={method.icon}></i>
+              </div>
+              <div className="mobile-card-content">
+                <div className="mobile-card-label">{method.label}</div>
+                <div className="mobile-card-value">{method.value}</div>
+                <div className="mobile-card-status">{method.status}</div>
+              </div>
+              <div className="mobile-card-arrow">
+                <i className="fas fa-arrow-right"></i>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Tertiary Methods */}
+        <div className="mobile-methods-group">
+          <h3 className="mobile-group-title">Location</h3>
+          {contactMethods.filter(method => method.priority === 'tertiary').map((method) => (
+            <div
+              key={method.id}
+              className="mobile-contact-card tertiary"
+              onClick={() => handleContactClick(method)}
+              style={{'--method-color': method.color}}
+            >
+              <div className="mobile-card-icon">
+                <i className={method.icon}></i>
+              </div>
+              <div className="mobile-card-content">
+                <div className="mobile-card-label">{method.label}</div>
+                <div className="mobile-card-value">{method.value}</div>
+                <div className="mobile-card-status">{method.status}</div>
+              </div>
+              <div className="mobile-card-arrow">
+                <i className="fas fa-arrow-right"></i>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile Footer */}
+      <div className="mobile-footer">
+        <div className="mobile-availability">
+          <div className="mobile-availability-card">
+            <i className="fas fa-clock"></i>
+            <div>
+              <span className="mobile-info-label">Response Time</span>
+              <span className="mobile-info-value">Within 24 hours</span>
+            </div>
+          </div>
+          <div className="mobile-availability-card">
+            <i className="fas fa-calendar"></i>
+            <div>
+              <span className="mobile-info-label">Availability</span>
+              <span className="mobile-info-value">Monday - Friday</span>
+            </div>
+          </div>
+          <div className="mobile-availability-card">
+            <i className="fas fa-globe"></i>
+            <div>
+              <span className="mobile-info-label">Timezone</span>
+              <span className="mobile-info-value">CET (GMT+2)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Desktop Component (your existing design)
+  const DesktopContact = () => (
     <div className="contact-container">
       {/* Animated Background */}
       <div className="contact-background">
@@ -103,7 +274,6 @@ function Contact() {
       <div className="process-header">
         <div className="process-title">
           <h1 className="main-title">Contact Me</h1>
-          {/* <p className="process-subtitle">Establishing professional connections through data-driven communication</p> */}
         </div>
         
         <div className="process-stats">
@@ -227,7 +397,6 @@ function Contact() {
               </filter>
             </defs>
             
-            {/* Dynamic flow lines will be generated here */}
             {contactMethods.map((method, index) => (
               <g key={method.id}>
                 <path
@@ -256,20 +425,6 @@ function Contact() {
           </svg>
         </div>
       </div>
-
-      {/* Success Message */}
-      {/* {processStep === 'connected' && selectedContact && (
-        <div className="success-message">
-          <div className="success-content">
-            <i className="fas fa-check-circle"></i>
-            <h3>Connection Established!</h3>
-            <p>Successfully initiated contact via {selectedContact.label}</p>
-            <button onClick={() => {setProcessStep('method-selection'); setSelectedContact(null);}} className="reset-btn">
-              Initiate New Process
-            </button>
-          </div>
-        </div>
-      )} */}
 
       {/* Footer Info */}
       <div className="contact-footer">
@@ -301,6 +456,13 @@ function Contact() {
       </div>
     </div>
   );
+
+  // Main render with device detection
+  if (isMobile) {
+    return <MobileContact />;
+  } else {
+    return <DesktopContact />;
+  }
 }
 
 export default Contact;
