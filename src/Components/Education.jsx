@@ -10,92 +10,66 @@ import {
     ReferenceDot
 } from "recharts";
 import styles from './Education.module.css';
+import mobileStyles from './MobileEducation.module.css';
 import rwthLogo from "../assets/logos/rwth_logo.png";
 import soaLogo from "../assets/logos/soa_logo.png";
 import cbseLogo from "../assets/logos/cbse_logo.png";
 
-/**
- * EDUCATION TIMELINE DATA
- * =====================
- * Configure your education entries here.
- * 
- * CUSTOMIZATION GUIDE:
- * - degree: Display name for the qualification
- * - place: Location where you studied
- * - dateText: Time period (displayed on timeline)
- * - logo: Institution logo image
- * - grade: Grade display text (what users see)
- * - gradeNum: Numerical value for chart plotting (lower = better for German system)
- * - gradeDisplay: What shows in chart tooltip on hover
- * - scale: Type of grading system used
- * - link: Institution website URL
- * - description: Brief description of the institution
- */
 const educationTimeline = [
     {
         degree: "M.Sc. Data Analytics and Decision Science",
-        institution: "Rheinisch-Westfälische Technische Hochschule(RWTH) Aachen University",
+        institution: "Rheinisch-Westfälische Technische Hochschule (RWTH) Aachen University",
         place: "Aachen, Germany",
         dateText: "Oct 2023 - Sept 2025",
         logo: rwthLogo,
-        grade: "1,5 GPA", // Display text
-        gradeNum: 1.5, // Chart value
-        gradeDisplay: "1,5 GPA", // Tooltip display
+        grade: "1,5 GPA",
+        gradeNum: 1.5,
+        gradeDisplay: "1,5 GPA",
         scale: "GPA",
         link: "https://www.rwth-aachen.de/",
         description: "Leading technical university in Germany, world-ranked for engineering."
     },
     {
         degree: "B.Tech. Computer Science and Engineering",
-        institution: "Shiksha 'O' Anusandhan(SOA) University",
+        institution: "Shiksha 'O' Anusandhan (SOA) University",
         place: "Bhubaneswar, India",
         dateText: "Aug 2015 - May 2019",
         logo: soaLogo,
-        grade: "1,1 GPA (98.3%)", // Display text
-        gradeNum: 1.1, // Chart value (best performance)
-        gradeDisplay: "1,1 GPA (98.3%)", // Tooltip display
+        grade: "1,1 GPA (98.3%)",
+        gradeNum: 1.1,
+        gradeDisplay: "1,1 GPA (98.3%)",
         scale: "GPA",
         link: "https://www.soa.ac.in/",
         description: "Deemed to be university recognized for innovation and research."
     },
     {
-        degree: "Abitur (German Equivalent)", // German equivalent of 12th grade
+        degree: "Abitur (German Equivalent)",
         place: "Jamshedpur, India",
         institution: "Central Board of Secondary Education (CBSE)",
         dateText: "Apr 2012 - Mar 2014",
         logo: cbseLogo,
         grade: "86%",
-        gradeNum: 2.0, // Chart value
-        gradeDisplay: "86%", // Tooltip display
+        gradeNum: 2.0,
+        gradeDisplay: "86%",
         scale: "%",
         link: "https://www.cbse.gov.in/",
         description: "India's central board of secondary education"
     },
     {
-        degree: "Schulabschluss (German Equivalent)", // German equivalent of 10th grade
+        degree: "Schulabschluss (German Equivalent)",
         institution: "Central Board of Secondary Education (CBSE)",
         place: "Jamshedpur, India",
         dateText: "March 2012",
         logo: cbseLogo,
         grade: "79.8%",
-        gradeNum: 2.3, // Chart value
-        gradeDisplay: "79.8%", // Tooltip display
+        gradeNum: 2.3,
+        gradeDisplay: "79.8%",
         scale: "%",
         link: "https://www.cbse.gov.in/",
         description: "India's central board of secondary education"
     },
 ];
 
-/**
- * CHART DATA CONFIGURATION
- * =======================
- * This data is used for the Academic Progression line chart.
- * 
- * CUSTOMIZATION:
- * - name: X-axis label (keep short for better display)
- * - value: Y-axis value (numerical grade for plotting)
- * - displayValue: What shows in tooltip when hovering
- */
 const chartData = [
     { name: "Schulabschluss", value: 2.3, displayValue: "79.8%" },
     { name: "Abitur", value: 2.0, displayValue: "86%" },
@@ -103,7 +77,6 @@ const chartData = [
     { name: "M.Sc.", value: 1.5, displayValue: "1,5 GPA" },
 ];
 
-// Typing animation hook
 const useTypingEffect = (text, isActive, speed = 30) => {
     const [displayText, setDisplayText] = useState('');
     const [isComplete, setIsComplete] = useState(false);
@@ -135,53 +108,252 @@ const useTypingEffect = (text, isActive, speed = 30) => {
     return { displayText, isComplete };
 };
 
-/**
- * MAIN EDUCATION COMPONENT
- * =======================
- */
+// Mobile Education Component
+const MobileEducation = () => {
+    const [visibleItems, setVisibleItems] = useState([]);
+    const [modalPreview, setModalPreview] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
 
-export default function Education() {
-    // State to track which education item is being previewed
+    const preview = modalPreview !== null ? educationTimeline[modalPreview] : null;
+    const institutionTyping = useTypingEffect(
+        preview?.description || '', 
+        modalPreview !== null, 
+        25
+    );
+
+    useEffect(() => {
+        setIsLoaded(true);
+        
+        // Animate timeline items one by one
+        const animateItems = () => {
+            educationTimeline.forEach((_, index) => {
+                setTimeout(() => {
+                    setVisibleItems(prev => [...prev, index]);
+                }, index * 300); // 300ms delay between each item
+            });
+        };
+
+        const timer = setTimeout(animateItems, 500);
+        return () => clearTimeout(timer);
+    }, []);
+
+    const handleTimelineClick = (idx) => {
+        setModalPreview(idx);
+    };
+
+    const closeModal = () => {
+        setModalPreview(null);
+    };
+
+    const CustomTooltip = ({ active, payload, label }) => {
+        if (active && payload && payload.length) {
+            const data = payload[0].payload;
+            return (
+                <div className={mobileStyles['chart-tooltip']}>
+                    <p className={mobileStyles['tooltip-stage']}>
+                        {`Stage: ${label}`}
+                    </p>
+                    <p className={mobileStyles['tooltip-grade']}>
+                        {`Grade: ${data.displayValue}`}
+                    </p>
+                </div>
+            );
+        }
+        return null;
+    };
+
+    const tickAlias = {
+        1.1: '1,1',
+        1.5: '1,5',
+        2.0: '2,0',
+        2.3: '2,3'
+    };
+    
+    const tickFormatter = (value) => tickAlias[value] || value;
+    
+    return (
+        <div className={mobileStyles.mobileContainer}>
+            {/* Timeline Section */}
+            <div className={mobileStyles.timelineSection}>
+                <h2 className={mobileStyles.sectionTitle}>My Education Journey</h2>
+                
+                <div className={mobileStyles.timelineContainer}>
+                    {/* Central Timeline Line */}
+                    <div className={mobileStyles.timelineLine}></div>
+                    
+                    {/* Timeline Items */}
+                    {educationTimeline.map((edu, idx) => {
+                        const universityName = (() => {
+                            const match = edu.institution.match(/\(([^)]+)\)\s*(.*)$/);
+                            if (match) {
+                            return `${match[1]} ${match[2]}`.trim();
+                            }
+                            return edu.institution;
+                        })();
+                        
+                        return (                        
+                            <div
+                                key={idx}
+                                className={`${mobileStyles.timelineItem} ${
+                                    visibleItems.includes(idx) ? mobileStyles.visible : mobileStyles.hidden
+                                } ${idx % 2 === 0 ? mobileStyles.left : mobileStyles.right}`}
+                                onClick={() => handleTimelineClick(idx)}
+                            >
+                                {/* Logo */}
+                                <div className={mobileStyles.logoContainer}>
+                                    <img 
+                                        src={edu.logo} 
+                                        alt={edu.institution}
+                                        className={mobileStyles.logoImage}
+                                    />
+                                </div>
+
+                                {/* Content */}
+                                <div className={mobileStyles.timelineContent}>
+                                    <div className={mobileStyles.timelineDate}>{edu.dateText}</div>
+                                    <h3 className={mobileStyles.degreeTitle}>{edu.degree}</h3>
+                                    <div className={mobileStyles.institution}>{universityName}</div>
+                                    <div className={mobileStyles.place}>{edu.place}</div>
+                                    <div className={mobileStyles.grade}>{edu.grade}</div>
+                                </div>
+                            </div>
+                        );
+        })}
+                </div>
+            </div>
+
+            {/* Chart Section */}
+            <div className={mobileStyles.chartSection}>
+                <h2 className={mobileStyles.sectionTitle}>Academic Progression</h2>
+                
+                <div className={mobileStyles.chartContainer}>
+                    <ResponsiveContainer width="100%" height={250}>
+                        <LineChart
+                            data={chartData}
+                            margin={{ left: 40, right: 40, top: 20, bottom: 40 }}
+                        >
+                            <CartesianGrid stroke="#e0e9f5" strokeDasharray="3 3" />
+                            
+                            <XAxis
+                                dataKey="name"
+                                tick={{ fill: "#165ba8", fontWeight: 700, fontSize: 12 }}
+                                interval={0}
+                                angle={-45}
+                                textAnchor="end"
+                                height={60}
+                            />
+                            
+                            <YAxis
+                                domain={[0.8, 2.5]}
+                                reversed={true}
+                                tick={{ fill: "#1857b8", fontWeight: 600, fontSize: 11 }}
+                                allowDecimals={true}
+                                ticks={[1.1, 1.5, 2.0, 2.3]}
+                                tickFormatter={tickFormatter}
+                            />
+                            
+                            <Tooltip content={<CustomTooltip />} />
+                            
+                            <Line
+                                type="monotone"
+                                dataKey="value"
+                                stroke="#1857b8"
+                                strokeWidth={3}
+                                dot={{ r: 6, fill: "#2d70e9" }}
+                                activeDot={{
+                                    r: 10,
+                                    fill: "#ffbe40",
+                                    stroke: "#2d70e9",
+                                    strokeWidth: 2,
+                                }}
+                            />
+                            
+                            <ReferenceDot
+                                x="B.Tech"
+                                y={1.1}
+                                r={12}
+                                fill="#47d6c6"
+                                stroke="#333"
+                                strokeWidth={2}
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+
+            {/* Modal Preview */}
+            {modalPreview !== null && (
+                <div className={mobileStyles.modalOverlay} onClick={closeModal}>
+                    <div className={mobileStyles.modalContent} onClick={(e) => e.stopPropagation()}>
+                        <button className={mobileStyles.closeButton} onClick={closeModal}>
+                            ×
+                        </button>
+                        
+                        <div className={mobileStyles.modalHeader}>
+                            <img
+                                src={preview.logo}
+                                alt={preview.degree}
+                                className={mobileStyles.modalLogo}
+                            />
+                            <h3 className={mobileStyles.modalDegree}>{preview.degree}</h3>
+                        </div>
+                        
+                        <div className={mobileStyles.modalInstitution}>
+                            {preview.institution}
+                        </div>
+                        
+                        <div className={mobileStyles.modalDescription}>
+                            {institutionTyping.displayText}
+                            {!institutionTyping.isComplete && (
+                                <span className={mobileStyles.typingCursor}></span>
+                            )}
+                        </div>
+                        
+                        <div className={mobileStyles.modalGrade}>
+                            <span>Grade: {preview.grade}</span>
+                        </div>
+                        
+                        <a
+                            href={preview.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={mobileStyles.modalLink}
+                        >
+                            Visit Institution Website
+                        </a>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+// Desktop Education Component (your existing design)
+const DesktopEducation = () => {
     const [previewIdx, setPreviewIdx] = useState(null);
     const [hoveredIdx, setHoveredIdx] = useState(null);
-    const [isMobile, setIsMobile] = useState(false);
 
-    // Get preview data for right panel
     const preview = previewIdx !== null ? educationTimeline[previewIdx] : null;
     
-    // Typing animation for institution description
     const institutionTyping = useTypingEffect(
         preview?.description || '', 
         previewIdx !== null, 
         25
     );
 
-    // Calculate dynamic timeline height based on logo positions
     const timelineHeight = useMemo(() => {
         const logoCount = educationTimeline.length;
-        const logoSpacing = 160; // pixels between logos
-        const firstLogoOffset = 80; // top offset of first logo
-        const logoSize = 80; // logo height
+        const logoSpacing = 160;
+        const firstLogoOffset = 80;
+        const logoSize = 80;
         
         return firstLogoOffset + ((logoCount - 1) * logoSpacing) + (logoSize / 2);
     }, [educationTimeline.length]);
 
-    useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-        
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
-
-    // Function to return to academic progression view
     const showAcademicProgression = () => {
         setPreviewIdx(null);
     };
 
-    // Custom tooltip for the chart
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             const data = payload[0].payload;
@@ -211,9 +383,7 @@ export default function Education() {
         }
     }, [animationStep, educationTimeline.length]);
 
-    // Animation logic for vertical line progress
     useEffect(() => {
-        // Grow line smoothly from 0 to 76 (or 100, adjust to your needs)
         if (animationProgress < 76) {
         const timer = setInterval(() => {
             setAnimationProgress(prev => (prev < 76 ? prev + 2 : 76));
@@ -223,14 +393,9 @@ export default function Education() {
     }, [animationProgress]);
 
     const handleTimelineItemClick = (idx) => {
-        if (isMobile) {
-            setPreviewIdx(idx);
-        } else {
-            setPreviewIdx(idx);
-        }
+        setPreviewIdx(idx);
     };
 
-    // Custom tick alias mapping
     const tickAlias = {
         1.1: '1,1',
         1.5: '1,5',
@@ -238,28 +403,21 @@ export default function Education() {
         2.3: '2,3'
     };
     
-    // Tick formatter function
     const tickFormatter = (value) => tickAlias[value] || value;
 
     return (
         <div 
             className={styles['education-container']}
-            onClick={showAcademicProgression} // Click anywhere to return to chart
+            onClick={showAcademicProgression}
         >
-            {/* MAIN TITLE */}
-            {/* <h1 className="text-5xl font-bold text-blue-800 mb-8">My Education</h1> */}
-            
             <div className={styles['education-content']}>
                 {/* LEFT HALF: TIMELINE */}
                 <div className={styles['timeline-section']} onClick={(e) => e.stopPropagation()}>
-                    {/* UNIFIED TIMELINE TRACK */}
                     <div className={styles['timeline-container']}>
-                        {/* Timeline Track - Contains both line and logos */}
                         <div 
                             className={styles['timeline-track']}
                             style={{ height: `${timelineHeight}px` }}
                         >
-                            {/* Animated Timeline Line */}
                             <div 
                                 className={styles['timeline-line']}
                                 style={{ 
@@ -267,9 +425,8 @@ export default function Education() {
                                 }}
                             ></div>
                             
-                            {/* Timeline Logos - Automatically centered on line */}
                             {educationTimeline.map((edu, idx) => {
-                                const logoTop = 80 + (idx * 120); // Same spacing as before
+                                const logoTop = 80 + (idx * 120);
                                 return (
                                     <div
                                         key={`logo-${idx}`}
@@ -281,8 +438,8 @@ export default function Education() {
                                             e.stopPropagation();
                                             handleTimelineItemClick(idx);
                                         }}
-                                        onMouseEnter={() => !isMobile && setHoveredIdx(idx)}
-                                        onMouseLeave={() => !isMobile && setHoveredIdx(null)}
+                                        onMouseEnter={() => setHoveredIdx(idx)}
+                                        onMouseLeave={() => setHoveredIdx(null)}
                                         title={`${edu.institution}`}
                                     >
                                         <img
@@ -296,7 +453,6 @@ export default function Education() {
                             })}
                         </div>
                         
-                        {/* Timeline Content - Dates and Info positioned relative to track */}
                         {educationTimeline.map((edu, idx) => {
                             const itemTop = 80 + (idx * 120);
                             return (
@@ -306,7 +462,6 @@ export default function Education() {
                                         idx <= animationStep ? styles['timeline-item-visible'] : styles['timeline-item-hidden']
                                     } ${hoveredIdx === idx ? styles['timeline-item-hovered'] : ''}`}
                                 >
-                                    {/* DATE - Left side of timeline */}
                                     <div 
                                         className={styles['timeline-date']}
                                         style={{ top: `${itemTop + 30}px` }}
@@ -314,7 +469,6 @@ export default function Education() {
                                         {edu.dateText}
                                     </div>
                                     
-                                    {/* EDUCATION INFO - Right side of timeline */}
                                     <div 
                                         className={styles['timeline-info']}
                                         style={{ top: `${itemTop + 10}px` }}
@@ -335,7 +489,6 @@ export default function Education() {
                     </div>
                 </div>
                 
-                {/* VERTICAL DIVIDER */}
                 <div className={styles['divider']}></div>
                 
                 {/* RIGHT HALF: CHART OR PREVIEW */}
@@ -344,9 +497,7 @@ export default function Education() {
                     onClick={(e) => e.stopPropagation()}
                 >
                     {preview ? (
-                        /* INSTITUTION PREVIEW CARD */
                         <div className={styles['preview-card']}>
-                            {/* Institution Header */}
                             <div className={styles['preview-header']}>
                                 <img
                                     src={preview.logo}
@@ -362,7 +513,6 @@ export default function Education() {
                                 {preview.institution}
                             </div>
                             
-                            {/* Institution Description with Typing Animation */}
                             <div className={styles['preview-description']}>
                                 {institutionTyping.displayText}
                                 {!institutionTyping.isComplete && (
@@ -370,12 +520,10 @@ export default function Education() {
                                 )}
                             </div>
                             
-                            {/* Grade Display */}
                             <div className={styles['preview-grade']}>
                                 <span>Grade: {preview.grade}</span>
                             </div>
                             
-                            {/* External Link */}
                             <a
                                 href={preview.link}
                                 target="_blank"
@@ -385,7 +533,6 @@ export default function Education() {
                                 Visit Institution Website
                             </a>
                             
-                            {/* Back Button */}
                             <button
                                 onClick={showAcademicProgression}
                                 className={styles['back-button']}
@@ -394,7 +541,6 @@ export default function Education() {
                             </button>
                         </div>
                     ) : (
-                        /* ACADEMIC PROGRESSION CHART */
                         <div className={styles['chart-container']}>
                             <span className={styles['chart-title']}>
                                 Academic Progression
@@ -406,52 +552,46 @@ export default function Education() {
                                         data={chartData}
                                         margin={{ left: 80, right: 80, top: 40, bottom: 60 }}
                                     >
-                                        {/* Chart Grid */}
                                         <CartesianGrid stroke="#e0e9f5" strokeDasharray="3 3" />
                                         
-                                        {/* X-Axis (Education Stages) */}
                                         <XAxis
                                             dataKey="name"
                                             tick={{ fill: "#165ba8", fontWeight: 700, fontSize: 14 }}
                                             padding={{ left: 20, right: 20 }}
-                                            interval={0} // Show all labels
+                                            interval={0}
                                         />
                                         
-                                        {/* Y-Axis (Grades - reversed so lower numbers appear higher) */}
                                         <YAxis
-                                            domain={[0.8, 2.5]} // Y-axis range
-                                            reversed={true} // Lower grades (better) appear higher
+                                            domain={[0.8, 2.5]}
+                                            reversed={true}
                                             tick={{ fill: "#1857b8", fontWeight: 600, fontSize: 13 }}
                                             allowDecimals={true}
                                             padding={{ top: 20, bottom: 20 }}
-                                            ticks={[1.1, 1.5, 2.0, 2.3]} // Only show these specific values
+                                            ticks={[1.1, 1.5, 2.0, 2.3]}
                                             tickFormatter={tickFormatter}
                                         />
                                         
-                                        {/* Custom Tooltip */}
                                         <Tooltip content={<CustomTooltip />} />
                                         
-                                        {/* Main Line */}
                                         <Line
                                             type="monotone"
                                             dataKey="value"
-                                            stroke="#1857b8" // Line color
-                                            strokeWidth={4} // Line thickness
-                                            dot={{ r: 10, fill: "#2d70e9" }} // Regular dots
+                                            stroke="#1857b8"
+                                            strokeWidth={4}
+                                            dot={{ r: 10, fill: "#2d70e9" }}
                                             activeDot={{
-                                                r: 15, // Hover dot size
-                                                fill: "#ffbe40", // Hover dot color
+                                                r: 15,
+                                                fill: "#ffbe40",
                                                 stroke: "#2d70e9",
                                                 strokeWidth: 3,
                                             }}
                                         />
                                         
-                                        {/* Highlight Best Performance (B.Tech) */}
                                         <ReferenceDot
                                             x="B.Tech"
                                             y={1.1}
                                             r={18}
-                                            fill="#47d6c6" // Highlight color
+                                            fill="#47d6c6"
                                             stroke="#333"
                                             strokeWidth={3}
                                         />
@@ -464,4 +604,38 @@ export default function Education() {
             </div>
         </div>
     );
+};
+
+// Main Education Component with Device Detection
+export default function Education() {
+    const [isMobile, setIsMobile] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    useEffect(() => {
+        const checkDevice = () => {
+            setIsMobile(window.innerWidth <= 767);
+        };
+        
+        checkDevice();
+        setIsLoaded(true);
+        
+        window.addEventListener('resize', checkDevice);
+        return () => window.removeEventListener('resize', checkDevice);
+    }, []);
+
+    if (!isLoaded) {
+        return (
+            <div style={{ 
+                height: '100vh', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                background: 'linear-gradient(135deg, #e3f0ff 0%, #f9fbff 100%)'
+            }}>
+                <div style={{ color: '#6b7280' }}>Loading...</div>
+            </div>
+        );
+    }
+
+    return isMobile ? <MobileEducation /> : <DesktopEducation />;
 }

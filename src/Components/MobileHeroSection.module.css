@@ -1,0 +1,316 @@
+    /* MobileHeroSection.module.css */
+
+    .mobileContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background: #f9fbff;
+    padding: 1rem;
+    padding-top: 2rem;
+    overflow-x: hidden;
+    }
+
+    /* Ribbon Badge */
+    .ribbonBadge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 120px;
+    height: auto;
+    z-index: 10;
+    pointer-events: none;
+    animation: fadeIn 0.8s ease-in;
+    }
+
+    /* Profile Section */
+    .profileSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    text-align: center;
+    }
+
+    .profilePhotoContainer {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 1rem;
+    position: relative;
+    }
+
+    .profilePhoto {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.5s ease;
+    }
+
+    .profilePhoto.visible {
+    opacity: 1;
+    transform: scale(1);
+    }
+
+    .mainTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+    }
+
+    .subtitle {
+    font-size: 1.1rem;
+    color: #6b7280;
+    font-weight: 500;
+    margin-bottom: 0;
+    }
+
+    /* Career Paths Container */
+    .careerPathsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    }
+
+    /* Career Cards */
+    .careerCard {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    }
+
+    .careerCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    transition: all 0.3s ease;
+    }
+
+    .careerCard.processMining::before {
+    background: linear-gradient(90deg, #10b981, #059669);
+    }
+
+    .careerCard.dataAnalyst::before {
+    background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+    }
+
+    .careerCard:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .careerCard.processMining:active {
+    border-color: #10b981;
+    }
+
+    .careerCard.dataAnalyst:active {
+    border-color: #3b82f6;
+    }
+
+    .cardContent {
+    width: 100%;
+    text-align: center;
+    }
+
+    .cardTitle {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+    }
+
+    .careerCard.processMining .cardTitle {
+    color: #059669;
+    }
+
+    .careerCard.dataAnalyst .cardTitle {
+    color: #1d4ed8;
+    }
+
+    .cardDescription {
+    font-size: 0.95rem;
+    color: #4b5563;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+    }
+
+    .resumeBtn {
+    display: inline-block;
+    padding: 0.6rem 1.5rem;
+    background: #1857b8;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background 0.2s ease;
+    box-shadow: 0 2px 8px rgba(24, 87, 184, 0.3);
+    }
+
+    .resumeBtn:hover {
+    background: #2d70e9;
+    }
+
+    /* Qualification Box */
+    .qualificationBox {
+    width: 100%;
+    margin: 0.1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70px;
+    background: #f4f8ff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(230, 236, 245, 0.6);
+    overflow: hidden;
+    position: relative;
+    padding: 1rem;
+    }
+
+    .rwthLogo {
+    width: 60px;
+    height: auto;
+    margin-right: 1rem;
+    }
+
+    .qualificationText {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #153277;
+    text-align: center;
+    line-height: 1.3;
+    }
+
+    /* Skills Train Wrapper */
+    .skillsTrainWrapper {
+    margin-top: 0.1rem;
+    width: 100%;
+    overflow-x: hidden;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(-10px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
+    }
+
+    /* Responsive Adjustments for Different Mobile Sizes */
+
+    /* Small Mobile (up to 400px) */
+    @media (max-width: 400px) {
+    .mobileContainer {
+        padding: 0.75rem;
+        padding-top: 1.5rem;
+    }
+    
+    .ribbonBadge {
+        width: 100px;
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+    
+    .profilePhotoContainer {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .mainTitle {
+        font-size: 1.75rem;
+    }
+    
+    .cardTitle {
+        font-size: 1.25rem;
+    }
+    
+    .cardDescription {
+        font-size: 0.9rem;
+    }
+    
+    .qualificationText {
+        font-size: 0.9rem;
+    }
+    
+    .rwthLogo {
+        width: 50px;
+    }
+    }
+
+    /* Medium Mobile (401px - 500px) */
+    @media (min-width: 401px) and (max-width: 500px) {
+    .profilePhotoContainer {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .ribbonBadge {
+        width: 110px;
+    }
+    }
+
+    /* Large Mobile (501px - 767px) */
+    @media (min-width: 501px) and (max-width: 767px) {
+    .mobileContainer {
+        padding: 1.25rem;
+    }
+    
+    .profilePhotoContainer {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .mainTitle {
+        font-size: 2.25rem;
+    }
+    
+    .cardTitle {
+        font-size: 1.5rem;
+    }
+    
+    .careerCard {
+        padding: 2rem;
+        min-height: 180px;
+    }
+    
+    .qualificationBox {
+        min-height: 80px;
+    }
+    
+    .rwthLogo {
+        width: 70px;
+    }
+    
+    .qualificationText {
+        font-size: 1.1rem;
+    }
+    
+    .ribbonBadge {
+        width: 140px;
+    }
+    }

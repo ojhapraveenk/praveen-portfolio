@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import logo from '../assets/logo.jpg';
@@ -8,12 +8,18 @@ import './Navbar.css';
 
 function Navbar() {
   const navRef = useRef();
-  const menuToogle = useRef();
-  const [toogle, setToggle] = useState(false);  
+  const [toggle, setToggle] = useState(false);
+  const navigate = useNavigate();
 
-  const toogleMenu = () => {
-    setToggle(!toogle);  
+  const toggleMenu = () => {
+    console.log('Toggle clicked, current state:', toggle); // Debug log
+    setToggle(!toggle);
+  };
 
+  const handleNavClick = (path) => {
+    console.log('Nav clicked:', path); // Debug log
+    setToggle(false);
+    navigate(path);
   };
 
   useGSAP(() => {
@@ -23,28 +29,31 @@ function Navbar() {
     );
   });
 
+  console.log('Current toggle state:', toggle); // Debug log
+
   return (
     <nav ref={navRef} className="navbar">
       <div className="logo">
         <img src={logo} alt="Logo" className="logo-img" />
       </div>
 
-      <div ref={ menuToogle} className={`menu ${toogle ? 'show' : ''}`}>
+      {/* Desktop Menu - Only visible on large screens */}
+      <div className={`menu ${toggle ? 'show' : ''}`}>
         <ul className="menu-list">
           <li>
-            <Link to="/section" className="menu-item">About</Link>
+            <button onClick={() => handleNavClick("/section")} className="menu-item">About</button>
           </li>
           <li>
-            <Link to="/education" className="menu-item">Education</Link>
+            <button onClick={() => handleNavClick("/education")} className="menu-item">Education</button>
           </li>
           <li>
-            <Link to="/projects" className="menu-item">Projects</Link>
+            <button onClick={() => handleNavClick("/projects")} className="menu-item">Projects</button>
           </li>
           <li>
-            <Link to="/testimonials" className="menu-item">Testimonials</Link>
+            <button onClick={() => handleNavClick("/testimonials")} className="menu-item">Testimonials</button>
           </li>
           <li>
-            <Link to="/contact" className="menu-item">Contact</Link>
+            <button onClick={() => handleNavClick("/contact")} className="menu-item">Contact</button>
           </li>
         </ul>
 
@@ -52,35 +61,36 @@ function Navbar() {
           <ul className="social-list">
             <li className="social-item">
               <a href="mailto:ojha.praveenk@gmail.com" target="_blank" rel="noopener noreferrer">
-                <i className="fas fa-envelope hover:text-blue-400 text-white text-2xl"></i>
+                <i className="fas fa-envelope text-white text-2xl"></i>
               </a>
             </li>
             <li className="social-item">
               <a href="https://linkedin.com/in/praveenojha3110" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-linkedin text-blue-600 hover:text-blue-400 text-2xl"></i>
+                <i className="fab fa-linkedin text-blue-400 text-2xl"></i>
               </a>
             </li>
             <li className="social-item">
               <a href="https://git.rwth-aachen.de/ojha.praveenk" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-gitlab text-orange-500 hover:text-orange-600 text-2xl"></i>
+                <i className="fab fa-gitlab text-orange-500 text-2xl"></i>
               </a>
             </li>
             <li className="social-item">
               <a href="https://www.google.com/maps/place/Pfaffenwaldring+42A,+70569+Stuttgart,+Germany/" target="_blank" rel="noopener noreferrer">
-                <i className="fas fa-map-marker-alt text-blue-500 hover:text-blue-800 text-2xl"></i>
+                <i className="fas fa-map-marker-alt text-blue-500 text-2xl"></i>
               </a>
             </li>
             <li className="social-item">
               <a href="tel:+4915207598759">
-                <i className="fas fa-phone text-green-500 hover:text-green-700 text-2xl"></i>
+                <i className="fas fa-phone text-green-500 text-2xl"></i>
               </a>
             </li>
           </ul>
         </div>
       </div>
 
-      <div onClick={toogleMenu} className="bars">
-        <i className="fas fa-bars"></i>
+      {/* Hamburger Button */}
+      <div onClick={toggleMenu} className="bars">
+        <i className={`fas ${toggle ? 'fa-times' : 'fa-bars'}`}></i>
       </div>
     </nav>
   );

@@ -30,7 +30,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
 }
 
 .menu-list {
@@ -39,7 +38,6 @@
     gap: 20px;
     font-size: 1.5rem;
     color: white;
-    
 }
 
 .menu-list li {
@@ -47,11 +45,23 @@
     padding-left: 20px;
 }
 
-.menu-list li:hover {
+.menu-item {
+    color: white;
+    background: none;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 8px 12px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.menu-item:hover {
     color: #6b7280;
 }
 
-/* socal icon start here*/
+/* social icon start here*/
 .social-icon {
     display: flex;
     justify-content: center;
@@ -59,8 +69,6 @@
     gap: 28px;
     font-size: 1.875rem;
     margin-left: 30px;
-    
-
 }
 
 .social-list {
@@ -69,48 +77,92 @@
     padding-right: 10px;
     align-items: center;
 }
-
     
-.social-icon li{padding-left: 30px;}
+.social-icon li{
+    padding-left: 30px;
+}
 
-    
-/* Bars icon  css start here*/
+/* Bars icon css start here*/
 .bars {
     font-size: 1.875rem;
     padding: 8px;
     display: none;
+    cursor: pointer;
+    color: white;
+    z-index: 1001;
 }
 
 .bars i {
     color: white;
 }
 
-/* media query for screens  below 850px*/
+/* media query for screens below 850px*/
 @media only screen and (max-width: 850px) {
     .menu {
         background-color: #212121;
-        display: none;
-        height: 500px;
+        display: none; /* Hidden by default */
+        height: auto;
+        min-height: 400px;
         width: 100%;
-        position: absolute;
-        top: 89px;
+        position: fixed;
+        top: 90px;
+        left: 0;
         right: 0;
-        z-index: 200;
-      
+        z-index: 500;
+        flex-direction: column;
+        padding: 20px;
+        box-sizing: border-box;
     }
-    .menu.show{display: block;}
+    
+    .menu.show {
+        display: flex !important; /* Force show when class is added */
+        background-color: #212121 !important;
+    }
 
     .menu-list {
         flex-direction: column;
+        gap: 0;
+        width: 100%;
+        margin-bottom: 20px;
     }
-    .menu-list li{border-bottom: 1px solid gray ; width: 100%;text-align: center;padding: 12px;}
+    
+    .menu-list li {
+        border-bottom: 1px solid #444;
+        width: 100%;
+        text-align: center;
+        padding: 0;
+    }
+
+    .menu-list li:last-child {
+        border-bottom: none;
+    }
+
+    .menu-item {
+        display: block;
+        width: 100%;
+        padding: 16px 20px;
+        color: white !important;
+        background-color: transparent !important;
+        border: none;
+        font-size: 1.2rem;
+        text-align: center;
+        min-height: 48px;
+    }
+
+    .menu-item:hover,
+    .menu-item:active {
+        background-color: #333 !important;
+        color: #6b7280 !important;
+    }
+
     /* Ensure social icons remain in a row even on small screens */
     .social-icon {
         display: flex;
         justify-content: space-evenly;
         gap: 15px;
         margin-left: 0;
-       
+        width: 100%;
+        margin-top: 20px;
     }
 
     .social-list {
@@ -119,19 +171,72 @@
         justify-content: center;
         align-items: center;
         width: 100%;
-        margin-top: 20px;
+        gap: 20px;
     }
     
-    .social-icon li{padding-left: 20px;}
-
-    
+    .social-icon li {
+        padding-left: 0;
+        padding: 10px;
+    }
 
     .social-item {
-        padding-left: 5px;
+        padding-left: 0;
     }
 
-    .bars{display: block;
-    cursor:  pointer;
+    .bars {
+        display: block;
+    }
+}
+
+/* Additional mobile optimizations for smaller screens */
+@media only screen and (max-width: 480px) {
+    .navbar {
+        padding: 0 15px;
     }
 
+    .logo {
+        width: auto;
+    }
+
+    .logo-img {
+        height: 60px;
+    }
+
+    .bars {
+        font-size: 1.5rem;
+        padding: 6px;
+    }
+
+    .menu-item {
+        font-size: 1.1rem !important;
+        padding: 14px 15px !important;
+    }
+
+    .social-list i {
+        font-size: 1.3rem;
+    }
+}
+
+/* Extra small screens */
+@media only screen and (max-width: 320px) {
+    .navbar {
+        padding: 0 10px;
+    }
+
+    .logo-img {
+        height: 50px;
+    }
+
+    .bars {
+        font-size: 1.3rem;
+    }
+
+    .menu-item {
+        font-size: 1rem !important;
+        padding: 12px !important;
+    }
+
+    .social-list i {
+        font-size: 1.2rem;
+    }
 }
