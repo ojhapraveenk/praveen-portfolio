@@ -818,7 +818,7 @@
 /* Ultra-wide Screens (2560px+) */
 @media (min-width: 2560px) {
     .education-container {
-        padding: 2.8rem;
+        padding: 15.8rem;
     }
     
     .timeline-section,
@@ -832,13 +832,13 @@
     }
     
     .logo-image {
-        width: 6.3rem;
-        height: 6.3rem;
+        width: 4.5rem;
+        height: 4.5rem;
     }
     
     .timeline-info {
         width: 490px;
-        padding: 0.56rem;
+        padding: -0.56rem;
     }
     
     .degree-title {
