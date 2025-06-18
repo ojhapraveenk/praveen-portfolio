@@ -96,6 +96,29 @@
     color: white;
 }
 
+/* Keyframe animations - only used in mobile */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes menuHint {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+}
+
+@keyframes fadeInOut {
+    0%, 60%, 100% { opacity: 0; transform: translateX(-50%) translateY(0); }
+    20%, 40% { opacity: 1; transform: translateX(-50%) translateY(-5px); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
 /* media query for screens below 850px*/
 @media only screen and (max-width: 850px) {
     .menu {
@@ -186,6 +209,70 @@
     .bars {
         display: block;
     }
+
+    /* Make the hamburger more prominent on first load */
+    .bars.first-visit {
+        animation: pulse 2s ease-in-out infinite;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+    
+    /* Add a tooltip-style hint */
+    .menu-hint {
+        position: absolute;
+        top: 100px;
+        right: 20px;
+        background-color: #333;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        z-index: 1000;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+    
+    .menu-hint.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .menu-hint::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        right: 20px;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid #333;
+    }
+}
+/* Solution 5: Progressive disclosure - show preview of menu items */
+@media only screen and (max-width: 850px) {
+    .menu-preview {
+        position: fixed;
+        top: 90px;
+        right: 0;
+        background: linear-gradient(90deg, transparent, rgba(33, 33, 33, 0.9));
+        padding: 10px 20px 10px 40px;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.7);
+        z-index: 99;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        border-radius: 8px 0 0 8px;
+    }
+    
+    .menu-preview.peek {
+        transform: translateX(0);
+        animation: peek 3s ease-in-out;
+    }
+    
+    @keyframes peek {
+        0%, 100% { transform: translateX(100%); }
+        20%, 80% { transform: translateX(0); }
+    }
 }
 
 /* Additional mobile optimizations for smaller screens */
@@ -203,8 +290,16 @@
     }
 
     .bars {
-        font-size: 1.5rem;
-        padding: 6px;
+        font-size: 2rem;
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .bars::after {
+        right: -50px;
+        font-size: 0.9rem;
     }
 
     .menu-item {
