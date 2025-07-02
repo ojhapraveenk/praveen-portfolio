@@ -28,3 +28,57 @@ body {
 * {
   touch-action: manipulation;
 }
+
+/* Section spacing to prevent content hiding behind fixed navbar */
+.section-spacing {
+    padding-top: 20px !important;
+    scroll-margin-top: 90px;
+}
+
+/* Specific fixes for components that might have their own positioning */
+.section-spacing > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* For Projects component - ensure mode controls are visible */
+.section-spacing .mode-controls,
+.section-spacing .mobile-mode-controls {
+    margin-top: 20px !important;
+}
+
+/* For Education component - ensure timeline starts below navbar */
+.section-spacing .education-container,
+.section-spacing .mobileContainer {
+    padding-top: 20px !important;
+}
+
+/* For Testimonials - ensure header is visible */
+.section-spacing .min-h-screen {
+    padding-top: 20px !important;
+}
+
+/* For Contact - ensure header is visible */
+.section-spacing .contact-container,
+.section-spacing .mobile-contact-container {
+    padding-top: 20px !important;
+}
+
+/* Mobile adjustments */
+@media only screen and (max-width: 850px) {
+    .section-spacing {
+        padding-top: 30px !important;
+        scroll-margin-top: 90px;
+    }
+    
+    .section-spacing .mobile-mode-controls {
+        margin-top: 30px !important;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .section-spacing {
+        padding-top: 25px !important;
+        scroll-margin-top: 80px;
+    }
+}
