@@ -8,7 +8,10 @@
     background-color: #0f0f0f;
     height: 90px;
     display: flex;
-    position: relative;
+    position: fixed; /* Changed to fixed for scroll navigation */
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     align-items: center;
     justify-content: space-between; 
@@ -18,6 +21,12 @@
 /* logo styles css here*/
 .logo {
     width: 25%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 .logo-img {
@@ -54,11 +63,33 @@
     cursor: pointer;
     padding: 8px 12px;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    position: relative;
 }
 
 .menu-item:hover {
     color: #6b7280;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Active section styling */
+.menu-item.active {
+    color: #60a5fa;
+    background-color: rgba(96, 165, 250, 0.1);
+    font-weight: 600;
+}
+
+.menu-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 2px;
+    background-color: #60a5fa;
+    border-radius: 1px;
 }
 
 /* social icon start here*/
@@ -119,6 +150,25 @@
     60% { transform: translateY(-5px); }
 }
 
+/* Add margin top to main content to account for fixed navbar */
+.single-page-container {
+    margin-top: 90px;
+}
+
+/* Ensure each section has proper spacing from fixed navbar */
+.single-page-container section {
+    padding-top: 20px; /* Additional padding for content visibility */
+    scroll-margin-top: 90px; /* Offset for smooth scroll positioning */
+}
+
+/* For better scroll positioning on smaller screens */
+@media only screen and (max-width: 480px) {
+    .single-page-container section {
+        padding-top: 30px;
+        scroll-margin-top: 80px; /* Account for smaller navbar on mobile */
+    }
+}
+
 /* media query for screens below 850px*/
 @media only screen and (max-width: 850px) {
     .menu {
@@ -170,12 +220,24 @@
         font-size: 1.2rem;
         text-align: center;
         min-height: 48px;
+        border-radius: 0;
     }
 
     .menu-item:hover,
     .menu-item:active {
         background-color: #333 !important;
         color: #6b7280 !important;
+    }
+
+    /* Mobile active section styling */
+    .menu-item.active {
+        background-color: rgba(96, 165, 250, 0.2) !important;
+        color: #60a5fa !important;
+        border-left: 4px solid #60a5fa;
+    }
+
+    .menu-item.active::after {
+        display: none; /* Hide underline on mobile */
     }
 
     /* Ensure social icons remain in a row even on small screens */
@@ -248,6 +310,7 @@
         border-bottom: 8px solid #333;
     }
 }
+
 /* Solution 5: Progressive disclosure - show preview of menu items */
 @media only screen and (max-width: 850px) {
     .menu-preview {
