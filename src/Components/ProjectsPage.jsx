@@ -6,14 +6,26 @@ import AcademicProjectsGrid from "./AcademicProjectsGrid";
 import "./ProjectsPage.css";
 import "./MobileProjectsPage.css";
 
-export default function ProjectsPage() {
+export default function ProjectsPage({ mode: propMode }) {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
-    const modeParam = params.get('mode');
-    const [activeMode, setActiveMode] = useState(modeParam);
-    const [highlight, setHighlight] = useState(true);
+    const urlModeParam = params.get('mode');
+    
+    // Priority: prop mode > URL mode > null
+    const initialMode = propMode || urlModeParam;
+    
+    const [activeMode, setActiveMode] = useState(initialMode);
+    const [highlight, setHighlight] = useState(!!initialMode); // Set to true if mode is provided
     const [isMobile, setIsMobile] = useState(false);
     const [showModeHint, setShowModeHint] = useState(false);
+
+    // Update mode when prop changes (for navigation from external links)
+    useEffect(() => {
+        if (propMode) {
+            setActiveMode(propMode);
+            setHighlight(true);
+        }
+    }, [propMode]);
 
     // Check if mobile
     useEffect(() => {
