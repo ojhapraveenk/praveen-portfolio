@@ -10,6 +10,8 @@ import certificateIntern from "../assets/recommendations/certificate_intern.pdf"
 import lorManagerimg from "../assets/recommendations/covers/lor_manager_cover.jpg";
 import certificateWSimg from "../assets/recommendations/covers/certificate_ws_cover.jpg";
 import certificateInternimg from "../assets/recommendations/covers/certificate_intern_cover.jpg";
+import lhind_cover from "../assets/recommendations/covers/loe_lhind_cover.jpg";
+import loe_lhind from "../assets/recommendations/loe_lhind.pdf";
 
 const items = [
   {
@@ -75,6 +77,19 @@ const items = [
     date: "31. February 2024",
     location: "Feuerbach",
     coverImage: certificateInternimg,
+    description: "Maschinell erstelltes Zeugnis - gültig ohne Unterschrift"
+  },
+  {
+    type: "pdf",
+    label: "LHIND Letter of Employment", 
+    src: loe_lhind,
+    category: "Certificate",
+    author: "Lufthansa Industry Solutions",
+    role: "Zwischenzeugnis", 
+    company: "Lufthansa Industry Solutions",
+    date: "11. February 2026",
+    location: "Raunheim, Germany",
+    coverImage: lhind_cover,
     description: "Maschinell erstelltes Zeugnis - gültig ohne Unterschrift"
   }
 ];
