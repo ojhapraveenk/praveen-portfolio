@@ -256,17 +256,17 @@ export default function Testimonials() {
       <div className="text-center mb-12">
         <div className="flex justify-center gap-8 mt-8">
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">6</div>
+            <div className="text-2xl font-bold text-blue-600">7</div>
             <div className="text-sm text-gray-500">Testimonials</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">3</div>
+            <div className="text-2xl font-bold text-green-600">4</div>
             <div className="text-sm text-gray-500">Certificates</div>
           </div>
-          <div className="text-center">
+          {/* <div className="text-center">
             <div className="text-2xl font-bold text-purple-600">5★</div>
             <div className="text-sm text-gray-500">Rating</div>
-          </div>
+          </div> */}
         </div>
       </div>
 
