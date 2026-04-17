@@ -10,6 +10,8 @@ import certificateIntern from "../assets/recommendations/certificate_intern.pdf"
 import lorManagerimg from "../assets/recommendations/covers/lor_manager_cover.jpg";
 import certificateWSimg from "../assets/recommendations/covers/certificate_ws_cover.jpg";
 import certificateInternimg from "../assets/recommendations/covers/certificate_intern_cover.jpg";
+import lhind_cover from "../assets/recommendations/covers/loe_lhind_cover.jpg";
+import loe_lhind from "../assets/recommendations/loe_lhind.pdf";
 
 const items = [
   {
@@ -75,6 +77,19 @@ const items = [
     date: "31. February 2024",
     location: "Feuerbach",
     coverImage: certificateInternimg,
+    description: "Maschinell erstelltes Zeugnis - gültig ohne Unterschrift"
+  },
+  {
+    type: "pdf",
+    label: "LHIND Letter of Employment", 
+    src: loe_lhind,
+    category: "Certificate",
+    author: "Lufthansa Industry Solutions",
+    role: "Zwischenzeugnis", 
+    company: "Lufthansa Industry Solutions",
+    date: "11. February 2026",
+    location: "Raunheim, Germany",
+    coverImage: lhind_cover,
     description: "Maschinell erstelltes Zeugnis - gültig ohne Unterschrift"
   }
 ];
@@ -241,17 +256,17 @@ export default function Testimonials() {
       <div className="text-center mb-12">
         <div className="flex justify-center gap-8 mt-8">
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">6</div>
+            <div className="text-2xl font-bold text-blue-600">7</div>
             <div className="text-sm text-gray-500">Testimonials</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">3</div>
+            <div className="text-2xl font-bold text-green-600">4</div>
             <div className="text-sm text-gray-500">Certificates</div>
           </div>
-          <div className="text-center">
+          {/* <div className="text-center">
             <div className="text-2xl font-bold text-purple-600">5★</div>
             <div className="text-sm text-gray-500">Rating</div>
-          </div>
+          </div> */}
         </div>
       </div>
 

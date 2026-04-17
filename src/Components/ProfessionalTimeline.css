@@ -207,11 +207,12 @@
 
 /* Timeline Logo and Initials */
 .timeline-logo {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  transition: all 0.3s ease;
+  max-width: 70%;
+  max-height: 70%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .timeline-initials {
@@ -450,7 +451,8 @@
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  object-fit: contain;
+  display: block;
 }
 
 .modal-initials-circle {
