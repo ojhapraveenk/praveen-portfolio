@@ -20,11 +20,11 @@ const educationTimeline = [
         degree: "M.Sc. Data Analytics and Decision Science",
         institution: "Rheinisch-Westfälische Technische Hochschule (RWTH) Aachen University",
         place: "Aachen, Germany",
-        dateText: "Oct 2023 - Sept 2025",
+        dateText: "Oct 2023 - Oct 2025",
         logo: rwthLogo,
-        grade: "1,5 GPA",
-        gradeNum: 1.5,
-        gradeDisplay: "1,5 GPA",
+        grade: "1,4 GPA",
+        gradeNum: 1.4,
+        gradeDisplay: "1,4 GPA",
         scale: "GPA",
         link: "https://www.rwth-aachen.de/",
         description: "Leading technical university in Germany, world-ranked for engineering."
@@ -74,7 +74,7 @@ const chartData = [
     { name: "Schulabschluss", value: 2.3, displayValue: "79.8%" },
     { name: "Abitur", value: 2.0, displayValue: "86%" },
     { name: "B.Tech", value: 1.1, displayValue: "1,1 GPA (98.3%)" },
-    { name: "M.Sc.", value: 1.5, displayValue: "1,5 GPA" },
+    { name: "M.Sc.", value: 1.4, displayValue: "1,4 GPA" },
 ];
 
 const useTypingEffect = (text, isActive, speed = 30) => {
@@ -164,7 +164,7 @@ const MobileEducation = () => {
 
     const tickAlias = {
         1.1: '1,1',
-        1.5: '1,5',
+        1.4: '1,4',
         2.0: '2,0',
         2.3: '2,3'
     };
@@ -398,7 +398,7 @@ const DesktopEducation = () => {
 
     const tickAlias = {
         1.1: '1,1',
-        1.5: '1,5',
+        1.4: '1,4',
         2.0: '2,0',
         2.3: '2,3'
     };
